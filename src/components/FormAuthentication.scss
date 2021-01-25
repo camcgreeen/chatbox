@@ -1,0 +1,38 @@
+@import "../utilities/variables.scss";
+
+.authentication {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__h1 {
+    margin-top: 100px;
+    // margin-bottom: 20px;
+    text-align: center;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    input {
+      margin-top: 40px;
+      padding: 12px;
+      padding-left: 40px;
+      border: none;
+      border-radius: $border-radius;
+      background-color: $color-input-select;
+    }
+    &__submit {
+      margin-top: 40px;
+    }
+  }
+}
+
+.account {
+  margin-top: 40px;
+  color: $color-tertiary;
+  font-weight: 400;
+  &__link {
+    text-decoration: none;
+    color: $color-action-1;
+  }
+}
