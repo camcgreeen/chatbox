@@ -28,8 +28,15 @@ class Dashboard extends React.Component {
     // return <h1>Dashboard</h1>;
   }
   componentDidMount = () => {
-    // setTimeout(() => this.setState({ navOpen: true }), 2000);
-    // setTimeout(() => this.setState({ navOpen: false }), 4000);
+    document.title = "Jabber";
+    // logging in, logging out, users being deleted, etc
+    firebase.auth().onAuthStateChanged(async (_usr) => {
+      if (!_usr) {
+        this.props.history.push("/login");
+      } else {
+        console.log("Welcome, " + _usr.email);
+      }
+    });
   };
   toggleNav = () => {
     this.setState({ navOpen: !this.state.navOpen });

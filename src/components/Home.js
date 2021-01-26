@@ -10,6 +10,7 @@ class Home extends React.Component {
     super();
     this.state = {
       loaded: false,
+      fade: false,
     };
   }
   render() {
@@ -49,16 +50,25 @@ class Home extends React.Component {
             </div>
           </>
         ) : (
-          <img className="loader" src="https://svgshare.com/i/TU9.svg" alt="" />
+          <img
+            className="loader"
+            src="https://svgshare.com/i/TU9.svg"
+            alt=""
+            style={{
+              transition: "opacity 0.6s ease-in-out",
+              opacity: this.state.fade ? 0 : 1,
+            }}
+          />
         )}
       </>
     );
   }
   componentDidMount = async () => {
-    // window.sessionStorage.clear();
+    window.sessionStorage.clear();
     if (window.sessionStorage.getItem("firstLoadDone") === null) {
       await this.setState({ loaded: false });
       window.sessionStorage.setItem("firstLoadDone", 1);
+      setTimeout(() => this.setState({ fade: true }), 1600);
       setTimeout(() => this.setState({ loaded: true }), 2200);
     } else {
       this.setState({ loaded: true });

@@ -1,5 +1,13 @@
 @import "../utilities/variables.scss";
 
+.error-text {
+  color: $color-danger;
+  margin-top: 20px;
+  font-weight: 300;
+  font-size: 1rem;
+  text-align: center;
+}
+
 .authentication {
   display: flex;
   flex-direction: column;
@@ -15,6 +23,7 @@
     width: 450px;
     input {
       margin-top: 40px;
+      // width: 100%;
       padding: 12px;
       padding-left: 40px;
       border: solid $color-bg 1px;
@@ -39,5 +48,13 @@
   &__link {
     text-decoration: none;
     color: $color-action-1;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .authentication {
+    &__form {
+      width: 90vw;
+    }
   }
 }
