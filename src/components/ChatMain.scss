@@ -1,0 +1,23 @@
+.chat-main {
+  width: 40vw;
+  height: 100vh;
+  background-color: teal;
+  z-index: 0;
+  &__toggle-nav {
+    // cursor: pointer;
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .chat-main {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    &__toggle-nav {
+      display: block;
+    }
+  }
+}
