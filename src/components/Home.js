@@ -50,18 +50,19 @@ class Home extends React.Component {
           </>
         ) : (
           <img className="loader" src="https://svgshare.com/i/TU9.svg" alt="" />
-          // <img className="loader" src="https://svgshare.com/i/TUk.svg" alt="" />
-          // <img
-          //   className="loader"
-          //   src="https://sebostudio.com/wp-content/themes/sebotheme-3.0.0/assets/img/sebostudio-preload.svg"
-          //   alt=""
-          // />
         )}
       </>
     );
   }
-  componentDidMount = () => {
-    setTimeout(() => this.setState({ loaded: true }), 1);
+  componentDidMount = async () => {
+    // window.sessionStorage.clear();
+    if (window.sessionStorage.getItem("firstLoadDone") === null) {
+      await this.setState({ loaded: false });
+      window.sessionStorage.setItem("firstLoadDone", 1);
+      setTimeout(() => this.setState({ loaded: true }), 2200);
+    } else {
+      this.setState({ loaded: true });
+    }
   };
 }
 

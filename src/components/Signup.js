@@ -13,7 +13,7 @@ class Signup extends React.Component {
         <div className="authentication">
           <h1 className="authentication__h1">Sign up</h1>
           <form className="authentication__form">
-            <input type="text" placeholder="email" />
+            <input type="text" placeholder="email" autoFocus />
             <input type="password" placeholder="password" />
             <input type="password" placeholder="confirm password" />
             <h4 className="error-text"></h4>

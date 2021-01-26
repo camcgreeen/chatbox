@@ -1,9 +1,29 @@
 @import "../utilities/variables.scss";
 
+@keyframes rock {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes rise {
+  0% {
+    // opacity: 0;
+    transform: translateY(25%);
+  }
+  100% {
+    // opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
 .loader {
   width: 75px;
   height: 75px;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -13,22 +33,38 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  overflow: hidden;
+  // position: relative;
+  // overflow: hidden;
   &__left {
+    animation: rise 0.5s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+    opacity: 1;
     &__h1 {
       // margin-top: 150px;
+      // animation: rise 1s;
+      // animation-iteration-count: 1;
+      // animation-timing-function: ease-out;
       margin-top: 100px;
       font-size: 4rem;
-      width: 50%;
+      // width: 50%;
+      width: 540px;
     }
     &__h2 {
+      // animation: rise 0.75s;
+      // animation-iteration-count: 1;
+      // animation-timing-function: ease-out;
       color: $color-tertiary;
       font-size: 1.5rem;
       font-weight: 400;
-      width: 50%;
+      // width: 50%;
+      width: 500px;
       margin-top: 50px;
     }
     &__demo {
+      // animation: rise 1s;
+      // animation-iteration-count: 1;
+      // animation-timing-function: ease-out;
       margin-top: 50px;
       margin-bottom: 50px;
       width: 270px;
@@ -38,19 +74,38 @@
       justify-content: space-between;
       align-items: center;
       svg {
-        margin-left: 20px;
+        animation: rock 1s infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+      }
+      svg path {
+        // margin-left: 20px;
+        // animation: rock 1s infinite;
+        // animation-direction: alternate;
+        // animation-timing-function: ease-in-out;
       }
     }
   }
   &__right {
     &__preview {
       // width: 400px;
-      width: 200px;
+      // position: absolute;
+      // // top: 50%;
+      // // top: 50%;
+      // // left: 75%;
+      // top: 460px;
+      // right: 20vw;
+      // transform: translate(0%, -50%);
+      animation: rise 0.6s;
+      animation-iteration-count: 1;
+      animation-timing-function: ease-out;
+      margin-top: 100px;
+      width: 400px;
       height: 500px;
       background-color: white;
       border-radius: $border-radius;
       box-shadow: 0px 4px 20px rgba(34, 30, 65, 0.5);
-      margin-top: 50%;
+      // margin-top: 50%;
     }
     &__circle {
       // position: absolute;
@@ -62,37 +117,82 @@
       // border-radius: 50%;
 
       position: absolute;
-      top: 0;
-      right: 0;
+      top: -50vh;
+      right: -120vh;
       z-index: -10;
-      height: 100vh;
-      width: 400px;
-      // border-radius: 50%;
-      background-color: $color-action-1;
+      // height: 100vh;
+      // width: calc(20vw + 200px);
+      height: 200vh;
+      width: 200vh;
+      border-radius: 50%;
+      // background-color: $color-action-1;
+      background: linear-gradient(180deg, #7c53f7 0%, #4814e2 100%);
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .home {
+    &__right {
+      &__preview {
+        // width: 300px;
+        // height: 375px;
+        // width: 400px;
+        // height: 200px;
+      }
+      &__circle {
+        top: -50vh;
+        right: -150vh;
+        z-index: -10;
+        // height: 100vh;
+        // width: calc(20vw + 200px);
+        height: 200vh;
+        width: 200vh;
+      }
     }
   }
 }
 
 @media only screen and (max-width: 1024px) {
   .home {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
     &__left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       &__h1 {
-        font-size: 2rem;
+        // font-size: 2rem;
         width: 100%;
         text-align: center;
       }
       &__h2 {
         margin-top: 25px;
-        font-size: 1rem;
+        // font-size: 1rem;
         width: 100%;
         text-align: center;
       }
     }
     &__right {
+      &__preview {
+        display: none;
+      }
       &__circle {
         display: none;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .home {
+    &__left {
+      &__h1 {
+        font-size: 3rem;
+      }
+      &__h2 {
+        font-size: 1rem;
       }
     }
   }

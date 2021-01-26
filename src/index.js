@@ -22,6 +22,8 @@ firebase.initializeApp({
   appId: "1:1068497569992:web:cd34fe942f7f080087bdfd",
 });
 
+let initialLoaded = false;
+
 const routing = (
   <BrowserRouter>
     <div id="routing-container">

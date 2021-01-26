@@ -17,9 +17,14 @@
       margin-top: 40px;
       padding: 12px;
       padding-left: 40px;
-      border: none;
+      border: solid $color-bg 1px;
       border-radius: $border-radius;
       background-color: $color-input-select;
+      transition: border 0.2s ease-in-out;
+      &:focus {
+        outline: none;
+        border: solid $color-primary 1px;
+      }
     }
     &__submit {
       margin-top: 40px;

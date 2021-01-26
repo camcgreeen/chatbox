@@ -14,7 +14,7 @@ class Login extends React.Component {
         <div className="authentication">
           <h1 className="authentication__h1">Log in</h1>
           <form className="authentication__form">
-            <input type="text" placeholder="email" />
+            <input type="text" placeholder="email" autoFocus />
             <input type="password" placeholder="password" />
             <h4 className="error-text"></h4>
             <button className="authentication__form__submit btn btn--submit">
