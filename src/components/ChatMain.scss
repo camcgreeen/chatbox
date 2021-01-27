@@ -3,6 +3,7 @@
   height: 100vh;
   background-color: teal;
   z-index: 0;
+  overflow-y: auto;
   &__toggle-nav {
     // cursor: pointer;
     display: none;
