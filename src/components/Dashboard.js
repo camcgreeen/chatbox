@@ -48,6 +48,7 @@ class Dashboard extends React.Component {
           chat={this.state.chats[this.state.selectedChat]}
           newChatFormVisible={this.state.newChatFormVisible}
           sendMessage={this.sendMessage}
+          sendGif={this.sendGif}
           navigateToChat={this.navigateToChat}
           createNewChat={this.createNewChat}
           friendOnline={this.state.friendOnline}
@@ -197,6 +198,29 @@ class Dashboard extends React.Component {
         }),
         receiverHasRead: false,
       });
+  };
+  sendGif = (url) => {
+    const docKey = this.buildDocKey(
+      this.state.chats[this.state.selectedChat].users.filter(
+        (_usr) => _usr !== this.state.email
+      )[0]
+    );
+    firebase
+      .firestore()
+      .collection("chats")
+      .doc(docKey)
+      .update({
+        // add the message to the message array in the db
+        messages: firebase.firestore.FieldValue.arrayUnion({
+          sender: this.state.email,
+          message: null,
+          timestamp: Date.now(),
+          gifRef: url,
+          receiverRead: false,
+        }),
+        receiverHasRead: false,
+      });
+    // this.selectChat(0);
   };
 }
 

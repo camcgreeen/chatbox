@@ -70,7 +70,11 @@ class ChatMain extends React.Component {
                       : "chat-main__message chat-main__message--friend"
                   }
                 >
-                  {message.message}
+                  {message.gifRef === null ? (
+                    <div className="message">{message.message}</div>
+                  ) : (
+                    <img src={message.gifRef} alt="" className="gif" />
+                  )}
                 </div>
               </>
             );
@@ -82,6 +86,7 @@ class ChatMain extends React.Component {
           )}
           <ChatInput
             sendMessage={sendMessage}
+            sendGif={this.props.sendGif}
             markMessageAsRead={this.props.markMessageAsRead}
             chat={this.props.chat}
             email={this.props.email}

@@ -42,9 +42,15 @@ class ChatNavigation extends React.Component {
                     </div>
                     <div className="chat-navigation__section__chats__chat__message">
                       <>
-                        {chat.messages[
+                        {/* {chat.messages[
                           chat.messages.length - 1
-                        ].message.substring(0, 30)}
+                        ].message.substring(0, 30)} */}
+                        {chat.messages[chat.messages.length - 1].message !==
+                        null
+                          ? chat.messages[
+                              chat.messages.length - 1
+                            ].message.substring(0, 30)
+                          : "GIF"}
                       </>
                     </div>
                   </li>
