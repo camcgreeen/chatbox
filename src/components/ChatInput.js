@@ -18,6 +18,7 @@ class ChatInput extends React.Component {
           placeholder="Type a message..."
           id="chat-input"
           className="chat-input__input"
+          onFocus={this.userClickedInput}
         />
         <button className="btn btn--send-message" onClick={this.sendMessage}>
           Send
@@ -37,6 +38,7 @@ class ChatInput extends React.Component {
       document.getElementById("chat-input").value = "";
     }
   };
+  userClickedInput = () => this.props.markMessageAsRead();
 }
 
 export default ChatInput;

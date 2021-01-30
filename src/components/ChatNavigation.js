@@ -22,7 +22,15 @@ class ChatNavigation extends React.Component {
                     className="chat-navigation__section__chats__chat"
                     onClick={() => this.selectChat(index)}
                   >
-                    <div className="chat_navigation__section__chats__chat__avatar">
+                    <div
+                      className="chat_navigation__section__chats__chat__avatar"
+                      style={{
+                        fontWeight:
+                          !chat.receiverHasRead && !this.userSentMessage(chat)
+                            ? 700
+                            : 400,
+                      }}
+                    >
                       {
                         // chat.users
                         //   .filter((user) => user !== this.props.email)[0]
@@ -74,6 +82,8 @@ class ChatNavigation extends React.Component {
     this.props.selectChat(index);
     this.props.toggleNav();
   };
+  userSentMessage = (chat) =>
+    chat.messages[chat.messages.length - 1].sender === this.props.email;
 }
 
 export default ChatNavigation;

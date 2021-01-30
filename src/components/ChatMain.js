@@ -64,7 +64,10 @@ class ChatMain extends React.Component {
               </>
             );
           })}
-          <ChatInput sendMessage={sendMessage} />
+          <ChatInput
+            sendMessage={sendMessage}
+            markMessageAsRead={this.props.markMessageAsRead}
+          />
         </div>
       );
     }

@@ -47,6 +47,7 @@ class Dashboard extends React.Component {
           navigateToChat={this.navigateToChat}
           createNewChat={this.createNewChat}
           friendOnline={this.state.friendOnline}
+          markMessageAsRead={this.markMessageAsRead}
         />
         <Sidebar />
       </>
@@ -99,8 +100,18 @@ class Dashboard extends React.Component {
       .collection("chats")
       .doc(docKey)
       .set({
-        users: [this.state.email, chat.sendTo],
-        messages: [{ message: chat.message, sender: this.state.email }],
+        users: [this.state.email, chat.sendTo].sort(),
+        messages: [
+          {
+            message: chat.message,
+            sender: this.state.email,
+            timestamp: Date.now(),
+            gifRef: null,
+          },
+        ],
+        receiverHasRead: false,
+        user1Typing: false,
+        user2Typing: false,
       });
     this.setState({ newChatFormVisible: false });
     this.selectChat(this.state.chats.length - 1);
@@ -108,6 +119,7 @@ class Dashboard extends React.Component {
   selectChat = async (chatIndex) => {
     console.log("index", chatIndex);
     await this.setState({ selectedChat: chatIndex });
+    this.markMessageAsRead();
     const friendEmail = this.state.chats[this.state.selectedChat].users.filter(
       (user) => user !== this.state.email
     )[0];
@@ -123,6 +135,28 @@ class Dashboard extends React.Component {
             // friendLastLoggedOut: doc.data().lastLoggedOut,
           });
         });
+    }
+  };
+  selectedChatWhereUserNotSender = (chatIndex) => {
+    const selectedChatMessages = this.state.chats[chatIndex].messages;
+    return (
+      selectedChatMessages[selectedChatMessages.length - 1].sender !==
+      this.state.email
+    );
+  };
+  markMessageAsRead = () => {
+    const friendEmail = this.state.chats[this.state.selectedChat].users.filter(
+      (user) => user !== this.state.email
+    )[0];
+    const docKey = this.buildDocKey(friendEmail);
+    if (this.selectedChatWhereUserNotSender(this.state.selectedChat)) {
+      firebase
+        .firestore()
+        .collection("chats")
+        .doc(docKey)
+        .update({ receiverHasRead: true });
+    } else {
+      console.log("selected message where the user was the sender");
     }
   };
   newChat = () => {
@@ -149,7 +183,9 @@ class Dashboard extends React.Component {
           sender: this.state.email,
           message,
           timestamp: Date.now(),
+          gifRef: null,
         }),
+        receiverHasRead: false,
       });
   };
 }
