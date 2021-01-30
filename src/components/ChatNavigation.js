@@ -55,12 +55,12 @@ class ChatNavigation extends React.Component {
               New chat
             </button>
           </main>
-          <button
+          {/* <button
             className="chat-navigation__toggle-nav"
             onClick={this.props.toggleNav}
           >
             Go to ChatMain
-          </button>
+          </button> */}
         </div>
       );
     } else {

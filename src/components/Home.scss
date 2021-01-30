@@ -30,6 +30,7 @@
 }
 
 .home {
+  // overflow: hidden;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -87,6 +88,11 @@
     }
   }
   &__right {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    // overflow: hidden;
     &__preview {
       // width: 400px;
       // position: absolute;
@@ -175,6 +181,7 @@
       }
     }
     &__right {
+      display: none;
       &__preview {
         display: none;
       }

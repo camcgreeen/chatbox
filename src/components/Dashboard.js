@@ -18,6 +18,8 @@ class Dashboard extends React.Component {
       chats: [],
       online: false,
       friendOnline: false,
+      lastLoggedOut: null,
+      friendLastLoggedOut: "",
     };
   }
   render() {
@@ -49,6 +51,7 @@ class Dashboard extends React.Component {
           navigateToChat={this.navigateToChat}
           createNewChat={this.createNewChat}
           friendOnline={this.state.friendOnline}
+          friendLastLoggedOut={this.state.friendLastLoggedOut}
           markMessageAsRead={this.markMessageAsRead}
         />
         <Sidebar />
@@ -134,7 +137,7 @@ class Dashboard extends React.Component {
         .onSnapshot(async (doc) => {
           await this.setState({
             friendOnline: doc.data().online,
-            // friendLastLoggedOut: doc.data().lastLoggedOut,
+            friendLastLoggedOut: doc.data().lastLoggedOut,
           });
         });
     }
@@ -165,8 +168,13 @@ class Dashboard extends React.Component {
     this.setState({ selectedChat: null, newChatFormVisible: true });
   };
   logOut = async () => {
-    await this.setState({ online: false });
+    await this.setState({ online: false, lastLoggedOut: Date.now() });
     await this.updateOnlineStatus();
+    await firebase
+      .firestore()
+      .collection("users")
+      .doc(this.state.email)
+      .update({ lastLoggedOut: this.state.lastLoggedOut });
     firebase.auth().signOut();
   };
   buildDocKey = (friend) => [this.state.email, friend].sort().join(":");

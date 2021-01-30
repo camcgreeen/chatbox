@@ -8,11 +8,18 @@ import "./ChatMain.scss";
 const firebase = require("firebase");
 
 class ChatMain extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      usersTyping: [],
+    };
+  }
   render() {
     const {
       toggleNav,
       chat,
       email,
+      friendEmail,
       newChatFormVisible,
       sendMessage,
     } = this.props;
@@ -46,7 +53,9 @@ class ChatMain extends React.Component {
               Your conversation with{" "}
               {chat.users.filter((user) => user !== email)[0]}
             </h1>
-            <h2>Online: {this.props.friendOnline ? "true" : "false"}</h2>
+            {this.props.friendOnline
+              ? " | (online_symbol) | Active"
+              : ` | (offline_symbol) ${this.props.friendLastLoggedOut}`}
           </div>
           {chat.messages.map((message, index) => {
             return (
@@ -64,6 +73,11 @@ class ChatMain extends React.Component {
               </>
             );
           })}
+          {this.checkFriendTyping(friendEmail, this.state.usersTyping) && (
+            <div className="chat-main__message chat-main__message--friend">
+              {"Friend is typing..."}
+            </div>
+          )}
           <ChatInput
             sendMessage={sendMessage}
             markMessageAsRead={this.props.markMessageAsRead}
@@ -86,6 +100,36 @@ class ChatMain extends React.Component {
     //   </div>
     // );
   }
+  findUsersTyping = () => {
+    firebase
+      .firestore()
+      .collection("chats")
+      .where("users", "array-contains", this.props.email)
+      .onSnapshot((result) => {
+        const chats = result.docs.map((document) => document.data());
+        const usersTyping = [];
+        chats.forEach((chat) => {
+          const userTypingObj = {};
+          userTypingObj[chat.users[0]] = chat.user1Typing;
+          userTypingObj[chat.users[1]] = chat.user2Typing;
+          usersTyping.push(userTypingObj);
+        });
+        this.setState({ usersTyping });
+      });
+  };
+  checkFriendTyping = (friend, usersTyping) => {
+    for (let obj of usersTyping) {
+      if (obj[friend]) {
+        return true;
+      }
+    }
+    return false;
+  };
+  buildDocKey = () =>
+    [this.props.email, this.props.friendEmail].sort().join(":");
+  componentDidMount = () => {
+    setTimeout(this.findUsersTyping, 2000);
+  };
   componentDidUpdate = () => {
     const chatContainer = document.getElementById("chat-container");
     if (chatContainer) {

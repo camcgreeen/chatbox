@@ -64,6 +64,7 @@ class Home extends React.Component {
     );
   }
   componentDidMount = async () => {
+    // GET RID OF THIS LINE
     window.sessionStorage.clear();
     if (window.sessionStorage.getItem("firstLoadDone") === null) {
       await this.setState({ loaded: false });
