@@ -7,13 +7,14 @@ class NewChat extends React.Component {
     this.state = {
       username: null,
       message: null,
+      newChatError: "",
     };
   }
   render() {
     return (
       <div className="new-chat">
         <h1 className="new-chat__h1">Start a new chat</h1>
-        <form className="new-chat__form" onClick={this.handleFormSubmit}>
+        <form className="new-chat__form" onSubmit={this.handleFormSubmit}>
           <input
             type="text"
             placeholder="friend's email"
@@ -24,6 +25,9 @@ class NewChat extends React.Component {
             placeholder="enter your message..."
             onChange={(e) => this.handleUserInput("message", e)}
           />
+          <h4 className="error-text">
+            {this.state.newChatError ? this.state.newChatError : null}
+          </h4>
           <button className="btn">Submit</button>
         </form>
       </div>
@@ -42,11 +46,19 @@ class NewChat extends React.Component {
   handleFormSubmit = async (e) => {
     e.preventDefault();
     const userExists = await this.checkUserExists();
+    const messageValid = this.messageValid(this.state.message);
     if (userExists) {
-      const chatExists = await this.checkChatExists();
-      chatExists ? this.navigateToChat() : this.createNewChat();
+      if (messageValid) {
+        const chatExists = await this.checkChatExists();
+        chatExists ? this.navigateToChat() : this.createNewChat();
+      } else {
+        this.setState({ newChatError: "Cannot send an empty message." });
+      }
+    } else {
+      this.setState({ newChatError: "User does not exist." });
     }
   };
+  messageValid = (text) => text && text.replace(/\s/g, "").length;
   navigateToChat = () =>
     this.props.navigateToChat(this.buildDocKey(), this.state.message);
   createNewChat = () => {
