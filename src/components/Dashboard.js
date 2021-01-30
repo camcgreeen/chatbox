@@ -14,6 +14,7 @@ class Dashboard extends React.Component {
       selectedChat: null,
       newChatFormVisible: false,
       email: null,
+      friendEmail: null,
       chats: [],
       online: false,
       friendOnline: false,
@@ -41,6 +42,7 @@ class Dashboard extends React.Component {
         <ChatMain
           toggleNav={this.toggleNav}
           email={this.state.email}
+          friendEmail={this.state.friendEmail}
           chat={this.state.chats[this.state.selectedChat]}
           newChatFormVisible={this.state.newChatFormVisible}
           sendMessage={this.sendMessage}
