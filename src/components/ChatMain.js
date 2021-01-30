@@ -42,8 +42,11 @@ class ChatMain extends React.Component {
             Go to ChatNavigation
           </button>
           <div className="chat-main__header">
-            Your conversation with{" "}
-            {chat.users.filter((user) => user !== email)[0]}
+            <h1>
+              Your conversation with{" "}
+              {chat.users.filter((user) => user !== email)[0]}
+            </h1>
+            <h2>Online: {this.props.friendOnline ? "true" : "false"}</h2>
           </div>
           {chat.messages.map((message, index) => {
             return (

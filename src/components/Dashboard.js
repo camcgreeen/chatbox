@@ -15,6 +15,8 @@ class Dashboard extends React.Component {
       newChatFormVisible: false,
       email: null,
       chats: [],
+      online: false,
+      friendOnline: false,
     };
   }
   render() {
@@ -44,29 +46,39 @@ class Dashboard extends React.Component {
           sendMessage={this.sendMessage}
           navigateToChat={this.navigateToChat}
           createNewChat={this.createNewChat}
+          friendOnline={this.state.friendOnline}
         />
         <Sidebar />
       </>
     );
     // return <h1>Dashboard</h1>;
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
     document.title = "Chatbox";
     firebase.auth().onAuthStateChanged(async (_usr) => {
       if (!_usr) {
         this.props.history.push("/login");
       } else {
+        await this.setState({ email: _usr.email, online: true });
+        await this.updateOnlineStatus();
         await firebase
           .firestore()
           .collection("chats")
           .where("users", "array-contains", _usr.email)
           .onSnapshot(async (result) => {
             const chats = result.docs.map((doc) => doc.data());
-            await this.setState({ email: _usr.email, chats });
+            await this.setState({ chats });
           });
         // console.log(this.state);
       }
     });
+  };
+  updateOnlineStatus = () => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(this.state.email)
+      .update({ online: this.state.online });
   };
   toggleNav = () => {
     this.setState({ navOpen: !this.state.navOpen });
@@ -93,14 +105,32 @@ class Dashboard extends React.Component {
     this.setState({ newChatFormVisible: false });
     this.selectChat(this.state.chats.length - 1);
   };
-  selectChat = (chatIndex) => {
+  selectChat = async (chatIndex) => {
     console.log("index", chatIndex);
-    this.setState({ selectedChat: chatIndex });
+    await this.setState({ selectedChat: chatIndex });
+    const friendEmail = this.state.chats[this.state.selectedChat].users.filter(
+      (user) => user !== this.state.email
+    )[0];
+    if (this.state.chats.length > 0) {
+      await this.setState({ friendEmail });
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(this.state.friendEmail)
+        .onSnapshot(async (doc) => {
+          await this.setState({
+            friendOnline: doc.data().online,
+            // friendLastLoggedOut: doc.data().lastLoggedOut,
+          });
+        });
+    }
   };
   newChat = () => {
     this.setState({ selectedChat: null, newChatFormVisible: true });
   };
-  logOut = () => {
+  logOut = async () => {
+    await this.setState({ online: false });
+    await this.updateOnlineStatus();
     firebase.auth().signOut();
   };
   buildDocKey = (friend) => [this.state.email, friend].sort().join(":");
