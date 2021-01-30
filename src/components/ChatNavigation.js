@@ -6,6 +6,12 @@ const firebase = require("firebase");
 
 class ChatNavigation extends React.Component {
   render() {
+    const chatsToOrder = [...this.props.chats];
+    const orderedChats = chatsToOrder.sort(
+      (a, b) =>
+        b.messages[b.messages.length - 1].timestamp -
+        a.messages[a.messages.length - 1].timestamp
+    );
     if (this.props.chats.length > 0) {
       return (
         <div
@@ -15,12 +21,19 @@ class ChatNavigation extends React.Component {
         >
           <main className="chat-navigation__section">
             <ul className="chat-navigation__section__chats">
-              {this.props.chats.map((chat, index) => {
+              {orderedChats.map((chat, index) => {
                 return (
                   <li
                     key={index}
                     className="chat-navigation__section__chats__chat"
-                    onClick={() => this.selectChat(index)}
+                    // onClick={() => this.selectChat(index)}
+                    onClick={() =>
+                      this.selectChat(
+                        this.props.chats.findIndex(
+                          (element) => element === orderedChats[index]
+                        )
+                      )
+                    }
                   >
                     <div
                       className="chat_navigation__section__chats__chat__avatar"

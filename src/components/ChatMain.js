@@ -12,6 +12,7 @@ class ChatMain extends React.Component {
     super(props);
     this.state = {
       usersTyping: [],
+      friendLastLoggedOut: "",
     };
   }
   render() {
@@ -55,9 +56,7 @@ class ChatMain extends React.Component {
             </h1>
             {this.props.friendOnline
               ? " | (online_symbol) | Active"
-              : ` | (offline_symbol) ${this.convertHeaderTimestamp(
-                  this.props.friendLastLoggedOut
-                )}`}
+              : ` | (offline_symbol) ${this.state.friendLastLoggedOut}`}
           </div>
           {chat.messages.map((message, index) => {
             return (
@@ -136,12 +135,28 @@ class ChatMain extends React.Component {
     [this.props.email, this.props.friendEmail].sort().join(":");
   componentDidMount = () => {
     setTimeout(this.findUsersTyping, 2000);
+    this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
+    setInterval(
+      () => this.updateHeaderTimestamp(this.props.friendLastLoggedOut),
+      60000
+    );
   };
-  componentDidUpdate = () => {
-    const chatContainer = document.getElementById("chat-container");
-    if (chatContainer) {
-      chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.chat !== undefined) {
+      if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
+        this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
+      }
+      if (prevProps.chat.messages.length < this.props.chat.messages.length) {
+        const chatContainer = document.getElementById("chat-container");
+        if (chatContainer) {
+          chatContainer.scrollTo(0, chatContainer.scrollHeight);
+        }
+      }
     }
+  };
+  updateHeaderTimestamp = (timestamp) => {
+    const friendLastLoggedOut = this.convertHeaderTimestamp(timestamp);
+    this.setState({ friendLastLoggedOut });
   };
   convertHeaderTimestamp = (timestamp) => {
     if (timestamp) {
