@@ -55,7 +55,9 @@ class ChatMain extends React.Component {
             </h1>
             {this.props.friendOnline
               ? " | (online_symbol) | Active"
-              : ` | (offline_symbol) ${this.props.friendLastLoggedOut}`}
+              : ` | (offline_symbol) ${this.convertHeaderTimestamp(
+                  this.props.friendLastLoggedOut
+                )}`}
           </div>
           {chat.messages.map((message, index) => {
             return (
@@ -134,6 +136,54 @@ class ChatMain extends React.Component {
     const chatContainer = document.getElementById("chat-container");
     if (chatContainer) {
       chatContainer.scrollTo(0, chatContainer.scrollHeight);
+    }
+  };
+  convertHeaderTimestamp = (timestamp) => {
+    if (timestamp) {
+      const hourMs = 3600000;
+      const dayMs = 86400000;
+      const weekMs = 604800000;
+      const yearMs = 31540000000;
+
+      const difference = Date.now() - timestamp;
+      // const difference = yearMs;
+
+      let plural;
+      let dateString;
+      let dateArray;
+      let dateFormatted;
+
+      switch (true) {
+        case difference < hourMs:
+          const differenceMins = Math.ceil(difference / 1000 / 60);
+          plural = differenceMins >= 2;
+          return ` | ${differenceMins} ${plural ? "mins" : "min"} ago`;
+        case difference < dayMs:
+          const differenceHours = Math.round(difference / 1000 / 60 / 60);
+          plural = differenceHours >= 2;
+          return ` | ${differenceHours} ${plural ? "hours" : "hour"} ago`;
+        case difference < weekMs:
+          dateString = new Date(timestamp).toString();
+          return ` | ${dateString.split(" ")[0]}`;
+        case difference < yearMs:
+          dateString = new Date(timestamp).toString();
+          dateArray = dateString.split(" ");
+          dateFormatted = [dateArray[0], dateArray[1], dateArray[2]].join(" ");
+          return ` | ${dateFormatted}`;
+        case difference >= yearMs:
+          dateString = new Date(timestamp).toString();
+          dateArray = dateString.split(" ");
+          dateFormatted = [
+            dateArray[0],
+            dateArray[1],
+            dateArray[2],
+            dateArray[3],
+          ].join(" ");
+          return ` | ${dateFormatted}`;
+        default:
+          //
+          return "";
+      }
     }
   };
 }
