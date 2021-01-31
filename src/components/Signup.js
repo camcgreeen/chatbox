@@ -12,7 +12,9 @@ class Signup extends React.Component {
       email: null,
       password: null,
       passwordConfirmation: null,
-      nickname: null,
+      // nickname: null,
+      nameFirst: null,
+      nameLast: null,
       signupError: "",
     };
   }
@@ -44,8 +46,13 @@ class Signup extends React.Component {
             />
             <input
               type="text"
-              placeholder="nickname"
-              onChange={(e) => this.handleUserInput("nickname", e)}
+              placeholder="first name"
+              onChange={(e) => this.handleUserInput("nameFirst", e)}
+            />
+            <input
+              type="text"
+              placeholder="last name"
+              onChange={(e) => this.handleUserInput("nameLast", e)}
             />
             <h4 className="error-text">
               {this.state.signupError ? this.state.signupError : null}
@@ -68,17 +75,19 @@ class Signup extends React.Component {
       </>
     );
   }
-  checkNicknameValid = (nickname) => {
+  checkNameValid = (name) => {
     const regex = /^[a-zA-Z]+$/;
-    return regex.test(nickname);
+    return regex.test(name);
   };
   formIsValid = () =>
     this.state.password === this.state.passwordConfirmation &&
     this.state.email !== null &&
     this.state.password !== null &&
     this.state.passwordConfirmation !== null &&
-    this.state.nickname !== null &&
-    this.checkNicknameValid(this.state.nickname);
+    this.state.nameFirst !== null &&
+    this.state.nameSecond !== null &&
+    this.checkNameValid(this.state.nameFirst) &&
+    this.checkNameValid(this.state.nameLast);
   handleUserInput = (type, e) => {
     switch (type) {
       case "email":
@@ -90,8 +99,11 @@ class Signup extends React.Component {
       case "passwordConfirmation":
         this.setState({ passwordConfirmation: e.target.value });
         break;
-      case "nickname":
-        this.setState({ nickname: e.target.value });
+      case "nameFirst":
+        this.setState({ nameFirst: e.target.value });
+        break;
+      case "nameLast":
+        this.setState({ nameLast: e.target.value });
         break;
       default:
         break;
@@ -131,7 +143,9 @@ class Signup extends React.Component {
             email: authRes.user.email,
             // firstName: this.state.firstName,
             // lastName: this.state.lastName,
-            nickname: this.state.nickname,
+            // nickname: this.state.nickname,
+            nameFirst: this.state.nameFirst,
+            nameLast: this.state.nameLast,
             lastLoggedOut: null,
             online: false,
           };

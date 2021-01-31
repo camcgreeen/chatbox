@@ -1,24 +1,119 @@
+@import "../utilities/variables.scss";
+
+.toggle-nav {
+  // cursor: pointer;
+  display: none;
+  margin: 0;
+}
+
 .chat-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 40vw;
+  // height: calc(100vh - 40px);
   height: 100vh;
-  background-color: teal;
+  background-color: $color-bg;
+  border-left: solid #f4f4fb 2px;
+  border-right: solid #f4f4fb 2px;
   z-index: 0;
-  overflow-y: auto;
-  &__toggle-nav {
-    // cursor: pointer;
-    display: none;
+  // padding: 20px;
+  &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-bottom: solid #f4f4fb 2px;
+    // height: calc(100px - 40px);
+    height: 100px;
+    // padding: 20px;
+    // height: 20vh;
+    p {
+      margin-top: 2px;
+    }
+    h1 {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-left: 24px;
+    }
+    &__friend {
+      font-weight: 300;
+      margin-left: 24px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      &__symbol {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+    }
+  }
+  &__body {
+    // height: 75vh;
+    overflow-y: auto;
+    // scroll-behavior: smooth;
+    // padding: 40px 20px;
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    &__message {
+      // display: inline-block;
+      // // width: 200px;
+      // flex-shrink: 0;
+      // // display: inline-flex;
+      // padding: 20px;
+      // // width: 100%;
+      // margin-bottom: 10px;
+      // background-color: grey;
+    }
+  }
+}
+
+.message {
+  display: inline-block;
+  // width: 200px;
+  // flex-shrink: 0;
+  // display: inline-flex;
+  padding: 20px;
+  max-width: 90%;
+  pointer-events: none;
+  // width: 100%;
+  margin-bottom: 10px;
+  background-color: grey;
+  font-size: 0.75rem;
+  &--user {
+    float: right;
+    border-radius: $border-radius $border-radius 0 $border-radius;
+    background-color: $color-primary;
+    // background-color: pink;
+    color: white;
+  }
+  &--friend {
+    float: left;
+    border-radius: $border-radius $border-radius $border-radius 0;
+    background-color: $color-bubble;
   }
 }
 
 @media only screen and (max-width: 1024px) {
   .chat-main {
     position: absolute;
-    width: 100vw;
+    padding: 0;
+    margin: 0;
+    // width: calc(100vw - 15px);
+    width: calc(100vw - 4px);
     height: 100vh;
     top: 0;
     left: 0;
-    &__toggle-nav {
-      display: block;
+    &__header {
+      height: 120px;
     }
+  }
+  .toggle-nav {
+    display: inline-block;
+    width: 150px;
+    margin-left: 24px;
   }
 }

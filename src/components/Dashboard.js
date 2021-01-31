@@ -10,11 +10,12 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      navOpen: false,
+      navOpen: true,
       selectedChat: null,
       newChatFormVisible: false,
       email: null,
       friendEmail: null,
+      friendName: null,
       chats: [],
       online: false,
       friendOnline: false,
@@ -25,12 +26,12 @@ class Dashboard extends React.Component {
   render() {
     return (
       <>
-        <button
+        {/* <button
           onClick={this.logOut}
           // style={{ position: "absolute", top: 200, left: 200 }}
         >
           Log out
-        </button>
+        </button> */}
         <ChatNavigation
           // zIndexValue={this.state.navOpen ? 20 : 0}
           leftValue={this.state.navOpen ? 0 : "-150vw"}
@@ -40,11 +41,13 @@ class Dashboard extends React.Component {
           chats={this.state.chats}
           email={this.state.email}
           selectedChatIndex={this.state.selectedChat}
+          logOut={this.logOut}
         />
         <ChatMain
           toggleNav={this.toggleNav}
           email={this.state.email}
           friendEmail={this.state.friendEmail}
+          friendName={this.state.friendName}
           chat={this.state.chats[this.state.selectedChat]}
           newChatFormVisible={this.state.newChatFormVisible}
           sendMessage={this.sendMessage}
@@ -55,7 +58,13 @@ class Dashboard extends React.Component {
           friendLastLoggedOut={this.state.friendLastLoggedOut}
           markMessageAsRead={this.markMessageAsRead}
         />
-        <Sidebar />
+        <Sidebar
+          selectedChat={this.state.selectedChat}
+          newChatFormVisible={this.state.newChatFormVisible}
+          friendName={this.state.friendName}
+          friendEmail={this.state.friendEmail}
+          friendsSince={this.state.friendsSince}
+        />
       </>
     );
     // return <h1>Dashboard</h1>;
@@ -76,7 +85,21 @@ class Dashboard extends React.Component {
             const chats = result.docs.map((doc) => doc.data());
             await this.setState({ chats });
           });
-        // console.log(this.state);
+        console.log(this.state);
+        setTimeout(() => {
+          if (this.state.chats.length > 0) {
+            const chatsToOrder = [...this.state.chats];
+            const orderedChats = chatsToOrder.sort(
+              (a, b) =>
+                b.messages[b.messages.length - 1].timestamp -
+                a.messages[a.messages.length - 1].timestamp
+            );
+            const index = this.state.chats.findIndex(
+              (element) => element === orderedChats[0]
+            );
+            this.selectChat(index);
+          }
+        }, 400);
       }
     });
   };
@@ -106,7 +129,7 @@ class Dashboard extends React.Component {
       .collection("chats")
       .doc(docKey)
       .set({
-        users: [this.state.email, chat.sendTo].sort(),
+        userEmails: [this.state.email, chat.sendTo].sort(),
         messages: [
           {
             message: chat.message,
@@ -124,13 +147,19 @@ class Dashboard extends React.Component {
   };
   selectChat = async (chatIndex) => {
     console.log("index", chatIndex);
-    await this.setState({ selectedChat: chatIndex });
+    await this.setState({
+      selectedChat: chatIndex,
+    });
     this.markMessageAsRead();
     const friendEmail = this.state.chats[this.state.selectedChat].users.filter(
       (user) => user !== this.state.email
     )[0];
+    const friendName = await this.findFriendName(friendEmail);
+    const friendsSince = new Date(
+      this.state.chats[this.state.selectedChat].messages[0].timestamp
+    );
     if (this.state.chats.length > 0) {
-      await this.setState({ friendEmail });
+      await this.setState({ friendEmail, friendName, friendsSince });
       firebase
         .firestore()
         .collection("users")
@@ -142,6 +171,17 @@ class Dashboard extends React.Component {
           });
         });
     }
+  };
+  findFriendName = async (friendEmail) => {
+    const doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(friendEmail)
+      .get();
+    const nameFirst = doc.data().nameFirst;
+    const nameLast = doc.data().nameLast;
+    return `${nameFirst} ${nameLast}`;
+    // console.log(`${nameFirst} ${nameLast}`);
   };
   selectedChatWhereUserNotSender = (chatIndex) => {
     const selectedChatMessages = this.state.chats[chatIndex].messages;
@@ -166,7 +206,10 @@ class Dashboard extends React.Component {
     }
   };
   newChat = () => {
-    this.setState({ selectedChat: null, newChatFormVisible: true });
+    this.setState({
+      selectedChat: null,
+      newChatFormVisible: true,
+    });
   };
   logOut = async () => {
     await this.setState({ online: false, lastLoggedOut: Date.now() });

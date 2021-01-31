@@ -1,7 +1,9 @@
+@import "../utilities/variables.scss";
+
 .chat-navigation {
   width: 30vw;
   height: 100vh;
-  background-color: hotpink;
+  background-color: $color-bg;
   // z-index: 0;
   z-index: 10;
   &__toggle-nav {

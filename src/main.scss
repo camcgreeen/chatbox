@@ -59,6 +59,10 @@ body {
   -ms-animation: fadeIn ease-in-out $fade-duration;
 }
 
+html {
+  // scroll-behavior: smooth !important;
+}
+
 body {
   color: $color-primary;
   background-color: $color-bg;

@@ -19,6 +19,7 @@ class ChatNavigation extends React.Component {
           // style={{ zIndex: this.props.zIndexValue }}
           style={{ left: this.props.leftValue }}
         >
+          <button onClick={this.props.logOut}>Log out</button>
           <main className="chat-navigation__section">
             <ul className="chat-navigation__section__chats">
               {orderedChats.map((chat, index) => {
@@ -85,6 +86,7 @@ class ChatNavigation extends React.Component {
     } else {
       return (
         <div className="chat-navigation">
+          <button onClick={this.props.logOut}>Log out</button>
           <main className="chat-navigation__section">
             <button className="btn btn--new-chat" onClick={this.newChat}>
               New chat

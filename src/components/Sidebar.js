@@ -6,7 +6,17 @@ const firebase = require("firebase");
 
 class Sidebar extends React.Component {
   render() {
-    return <div className="sidebar">Sidebar</div>;
+    if (this.props.selectedChat === null) {
+      if (this.props.newChatFormVisible) {
+        return <div className="sidebar">Start a new chat</div>;
+      } else {
+        return <div className="sidebar">No chat selected</div>;
+      }
+    } else {
+      return (
+        <div className="sidebar">your chat with {this.props.friendEmail}</div>
+      );
+    }
   }
 }
 

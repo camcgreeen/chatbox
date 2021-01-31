@@ -35,7 +35,7 @@ class ChatMain extends React.Component {
           ) : (
             <>
               ChatMain
-              <button className="chat-main__toggle-nav" onClick={toggleNav}>
+              <button className="toggle-nav" onClick={toggleNav}>
                 Go to ChatNavigation
               </button>
             </>
@@ -44,42 +44,76 @@ class ChatMain extends React.Component {
       );
     } else {
       return (
-        <div className="chat-main" id="chat-container">
-          ChatMain
-          <button className="chat-main__toggle-nav" onClick={toggleNav}>
-            Go to ChatNavigation
-          </button>
+        <div className="chat-main">
           <div className="chat-main__header">
-            <h1>
-              Your conversation with{" "}
-              {chat.users.filter((user) => user !== email)[0]}
-            </h1>
-            {this.props.friendOnline
+            <button className="toggle-nav" onClick={toggleNav}>
+              Go to ChatNavigation
+            </button>
+            <h1>{this.props.friendName}</h1>
+            {/* {this.props.friendOnline
               ? " | (online_symbol) | Active"
-              : ` | (offline_symbol) ${this.state.friendLastLoggedOut}`}
-          </div>
-          {chat.messages.map((message, index) => {
-            return (
-              <>
+              : ` | (offline_symbol) ${this.state.friendLastLoggedOut}`} */}
+            {this.props.friendOnline ? (
+              <div className="chat-main__header__friend">
                 <div
-                  key={index}
-                  className={
-                    message.sender === email
-                      ? "chat-main__message chat-main__message--user"
-                      : "chat-main__message chat-main__message--friend"
-                  }
-                >
-                  {message.gifRef === null ? (
-                    <div className="message">{message.message}</div>
-                  ) : (
-                    <img src={message.gifRef} alt="" className="gif" />
-                  )}
-                </div>
-              </>
-            );
-          })}
+                  className="chat-main__header__friend__symbol"
+                  style={{ backgroundColor: "#6EFF7C" }}
+                ></div>{" "}
+                <p>Active now</p>
+              </div>
+            ) : (
+              <div className="chat-main__header__friend">
+                <div
+                  className="chat-main__header__friend__symbol"
+                  style={{ backgroundColor: "#838191" }}
+                ></div>
+                <p>{this.state.friendLastLoggedOut}</p>
+              </div>
+            )}
+          </div>
+          <div className="chat-main__body" id="chat-container">
+            {chat.messages.map((message, index) => {
+              return (
+                <>
+                  <div
+                    key={index}
+                    className={
+                      message.sender === email
+                        ? "chat-main__body__message chat-main__body__message--user"
+                        : "chat-main__body__message chat-main__body__message--friend"
+                    }
+                  >
+                    {message.gifRef === null ? (
+                      <>
+                        <div
+                          className={
+                            message.sender === email
+                              ? "message message--user"
+                              : "message message--friend"
+                          }
+                        >
+                          {message.message}
+                        </div>
+                        {/* <div className=""></div> */}
+                      </>
+                    ) : (
+                      <img
+                        src={message.gifRef}
+                        alt=""
+                        className={
+                          message.sender === email
+                            ? "message message--user"
+                            : "message message--friend"
+                        }
+                      />
+                    )}
+                  </div>
+                </>
+              );
+            })}
+          </div>
           {this.checkFriendTyping(friendEmail, this.state.usersTyping) && (
-            <div className="chat-main__message chat-main__message--friend">
+            <div className="chat-main__body__message chat-main__body__message--friend">
               {"Friend is typing..."}
             </div>
           )}
@@ -140,6 +174,16 @@ class ChatMain extends React.Component {
       () => this.updateHeaderTimestamp(this.props.friendLastLoggedOut),
       60000
     );
+    setTimeout(() => {
+      const chatContainer = document.getElementById("chat-container");
+      if (chatContainer) {
+        chatContainer.scrollTo({
+          left: 0,
+          top: chatContainer.scrollHeight,
+          behaviour: "auto",
+        });
+      }
+    }, 800);
   };
   componentDidUpdate = (prevProps, prevState) => {
     if (prevProps.chat !== undefined && this.props.chat !== undefined) {
@@ -149,7 +193,11 @@ class ChatMain extends React.Component {
       if (prevProps.chat.messages.length < this.props.chat.messages.length) {
         const chatContainer = document.getElementById("chat-container");
         if (chatContainer) {
-          chatContainer.scrollTo(0, chatContainer.scrollHeight);
+          chatContainer.scrollTo({
+            left: 0,
+            top: chatContainer.scrollHeight,
+            behaviour: "smooth",
+          });
         }
       }
     }
@@ -177,19 +225,19 @@ class ChatMain extends React.Component {
         case difference < hourMs:
           const differenceMins = Math.ceil(difference / 1000 / 60);
           plural = differenceMins >= 2;
-          return ` | ${differenceMins} ${plural ? "mins" : "min"} ago`;
+          return `${differenceMins} ${plural ? "mins" : "min"} ago`;
         case difference < dayMs:
           const differenceHours = Math.round(difference / 1000 / 60 / 60);
           plural = differenceHours >= 2;
-          return ` | ${differenceHours} ${plural ? "hours" : "hour"} ago`;
+          return `${differenceHours} ${plural ? "hours" : "hour"} ago`;
         case difference < weekMs:
           dateString = new Date(timestamp).toString();
-          return ` | ${dateString.split(" ")[0]}`;
+          return `${dateString.split(" ")[0]}`;
         case difference < yearMs:
           dateString = new Date(timestamp).toString();
           dateArray = dateString.split(" ");
           dateFormatted = [dateArray[0], dateArray[1], dateArray[2]].join(" ");
-          return ` | ${dateFormatted}`;
+          return `${dateFormatted}`;
         case difference >= yearMs:
           dateString = new Date(timestamp).toString();
           dateArray = dateString.split(" ");
@@ -199,7 +247,7 @@ class ChatMain extends React.Component {
             dateArray[2],
             dateArray[3],
           ].join(" ");
-          return ` | ${dateFormatted}`;
+          return `${dateFormatted}`;
         default:
           //
           return "";
