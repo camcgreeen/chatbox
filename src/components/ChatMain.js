@@ -142,7 +142,7 @@ class ChatMain extends React.Component {
     );
   };
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevProps.chat !== undefined) {
+    if (prevProps.chat !== undefined && this.props.chat !== undefined) {
       if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
         this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
       }

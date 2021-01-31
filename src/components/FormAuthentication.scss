@@ -51,6 +51,10 @@
   &__link {
     text-decoration: none;
     color: $color-action-1;
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: darken($color-action-1, 5%);
+    }
   }
 }
 

@@ -25,6 +25,10 @@
       color: $color-secondary;
       font-weight: 600;
       font-size: 0.75rem;
+      transition: color 0.2s ease-in-out;
+      &:hover {
+        color: darken($color-action-1, 5%);
+      }
     }
   }
   &__menu {
@@ -59,16 +63,16 @@
       pointer-events: none;
       z-index: 9999;
       position: absolute;
-      top: 100px;
+      top: 40px;
       left: 50%;
       transform: translateX(-50%);
       background-color: $color-bg;
-      padding-bottom: 80px;
-      animation-duration: 0.2s;
-      // border-bottom: solid grey 1px;
+      padding-bottom: 0px;
+      animation-duration: 0.1s;
+      border-bottom: solid #e2e2e7 2px;
       // box-shadow: 0 8px 6px -6px #a8a6b3;
-      box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.05),
-        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.1) !important;
+      // box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.05),
+      //   inset 0 -1px 1px 0 rgba(0, 0, 0, 0.1) !important;
       width: 100%;
       // filter: drop-shadow(0px 4px 20px rgba(34, 30, 65, 0.5));
       // margin

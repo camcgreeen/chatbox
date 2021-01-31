@@ -11,6 +11,7 @@ class Home extends React.Component {
     this.state = {
       loaded: false,
       fade: false,
+      animationCompleted: false,
     };
   }
   render() {
@@ -19,7 +20,13 @@ class Home extends React.Component {
         {this.state.loaded ? (
           <>
             <Navbar />
-            <div className="home">
+            <img className="bg" src="https://svgshare.com/i/TcG.svg" alt="" />
+            <div
+              className="home"
+              // style={{
+              //   overflowY: this.state.animationCompleted ? "auto" : "hidden",
+              // }}
+            >
               <div className="home__left">
                 <h1 className="home__left__h1">
                   Chat with friends, whenever and wherever.
@@ -45,7 +52,7 @@ class Home extends React.Component {
               </div>
               <div className="home__right">
                 <div className="home__right__preview"></div>
-                <div className="home__right__circle"></div>
+                {/* <div className="home__right__circle"></div> */}
               </div>
             </div>
           </>
@@ -74,6 +81,7 @@ class Home extends React.Component {
     } else {
       this.setState({ loaded: true });
     }
+    setTimeout(() => this.setState({ animationCompleted: true }), 1000);
   };
 }
 
