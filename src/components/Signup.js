@@ -148,6 +148,7 @@ class Signup extends React.Component {
             nameLast: this.state.nameLast,
             lastLoggedOut: null,
             online: false,
+            profilePictureUrl: "https://i.imgur.com/ZtGfcXy.png",
           };
           firebase
             .firestore()

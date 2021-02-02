@@ -16,6 +16,7 @@ class Dashboard extends React.Component {
       email: null,
       friendEmail: null,
       friendName: null,
+      friendProfilePicture: null,
       chats: [],
       online: false,
       friendOnline: false,
@@ -64,6 +65,7 @@ class Dashboard extends React.Component {
           friendName={this.state.friendName}
           friendEmail={this.state.friendEmail}
           friendsSince={this.state.friendsSince}
+          friendProfilePicture={this.state.friendProfilePicture}
         />
       </>
     );
@@ -129,7 +131,7 @@ class Dashboard extends React.Component {
       .collection("chats")
       .doc(docKey)
       .set({
-        userEmails: [this.state.email, chat.sendTo].sort(),
+        users: [this.state.email, chat.sendTo].sort(),
         messages: [
           {
             message: chat.message,
@@ -168,6 +170,7 @@ class Dashboard extends React.Component {
           await this.setState({
             friendOnline: doc.data().online,
             friendLastLoggedOut: doc.data().lastLoggedOut,
+            friendProfilePicture: doc.data().profilePictureUrl,
           });
         });
     }

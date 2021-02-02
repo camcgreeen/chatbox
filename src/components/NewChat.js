@@ -1,4 +1,7 @@
 import React from "react";
+import "../main.scss";
+import "./NewChat.scss";
+
 const firebase = require("firebase");
 
 class NewChat extends React.Component {
@@ -28,7 +31,7 @@ class NewChat extends React.Component {
           <h4 className="error-text">
             {this.state.newChatError ? this.state.newChatError : null}
           </h4>
-          <button className="btn">Submit</button>
+          <button className="new-chat__submit btn btn--submit">Submit</button>
         </form>
       </div>
     );

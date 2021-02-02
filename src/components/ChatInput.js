@@ -22,7 +22,7 @@ class ChatInput extends React.Component {
     const emojiPickerStyle = {
       position: "absolute",
       bottom: 100,
-      left: 0,
+      left: 24,
       // animation: "none !important",
       opacity: this.state.showEmojiPicker ? 1 : 0,
       pointerEvents: this.state.showEmojiPicker ? "all" : "none",
@@ -69,7 +69,7 @@ class ChatInput extends React.Component {
         >
           <path
             d="M14.985 0C6.705 0 0 6.72 0 15C0 23.28 6.705 30 14.985 30C23.28 30 30 23.28 30 15C30 6.72 23.28 0 14.985 0ZM15 27C8.37 27 3 21.63 3 15C3 8.37 8.37 3 15 3C21.63 3 27 8.37 27 15C27 21.63 21.63 27 15 27ZM20.25 13.5C21.495 13.5 22.5 12.495 22.5 11.25C22.5 10.005 21.495 9 20.25 9C19.005 9 18 10.005 18 11.25C18 12.495 19.005 13.5 20.25 13.5ZM9.75 13.5C10.995 13.5 12 12.495 12 11.25C12 10.005 10.995 9 9.75 9C8.505 9 7.5 10.005 7.5 11.25C7.5 12.495 8.505 13.5 9.75 13.5ZM15 23.25C18.495 23.25 21.465 21.06 22.665 18H7.335C8.535 21.06 11.505 23.25 15 23.25Z"
-            fill="#221E41"
+            fill={this.state.showEmojiPicker ? "#6937FF" : "#221E41"}
           />
         </svg>
 
@@ -115,14 +115,17 @@ class ChatInput extends React.Component {
           //   })
           // }
         >
-          <path d="M19.5 13.5H17.25V22.5H19.5V13.5Z" fill="#221E41" />
+          <path
+            d="M19.5 13.5H17.25V22.5H19.5V13.5Z"
+            fill={this.state.showGifPicker ? "#6937FF" : "#221E41"}
+          />
           <path
             d="M13.5 13.5H9C8.1 13.5 7.5 14.25 7.5 15V21C7.5 21.75 8.1 22.5 9 22.5H13.5C14.4 22.5 15 21.75 15 21V18H12.75V20.25H9.75V15.75H15V15C15 14.25 14.4 13.5 13.5 13.5Z"
-            fill="#221E41"
+            fill={this.state.showGifPicker ? "#6937FF" : "#221E41"}
           />
           <path
             d="M28.5 15.75V13.5H21.75V22.5H24V19.5H27V17.25H24V15.75H28.5Z"
-            fill="#221E41"
+            fill={this.state.showGifPicker ? "#6937FF" : "#221E41"}
           />
           <rect
             x="1"
@@ -130,7 +133,7 @@ class ChatInput extends React.Component {
             width="34"
             height="34"
             rx="8"
-            stroke="#221E41"
+            stroke={this.state.showGifPicker ? "#6937FF" : "#221E41"}
             stroke-width="2"
           />
         </svg>
