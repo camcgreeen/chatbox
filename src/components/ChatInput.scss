@@ -1,6 +1,82 @@
 @import "../utilities/variables.scss";
 
+.emoji-mart {
+  animation: none !important;
+  transition: opacity 0.2s ease-in-out;
+  &-preview {
+    display: none;
+  }
+}
+
+.picker-gif {
+  animation: none !important;
+  transition: opacity 0.2s ease-in-out;
+}
+
 .chat-input {
+  position: relative;
   height: 100px;
-  background-color: hotpink;
+  // background-color: hotpink;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  &__emoji {
+    cursor: pointer;
+    margin-right: 20px;
+    transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
+    &:hover {
+      path {
+        fill: $color-action-1;
+      }
+    }
+  }
+  // &__picker-emoji {
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   background: yellow;
+  // }
+  &__gif {
+    cursor: pointer;
+    margin-right: 20px;
+    transition: fill 0.2s ease-in-out;
+    &:hover {
+      path {
+        fill: $color-action-1;
+      }
+      rect {
+        stroke: $color-action-1;
+      }
+    }
+  }
+  &__input {
+    flex: 1;
+    background-color: $color-input-select;
+    border-radius: $border-radius;
+    padding: 20px;
+    height: calc(32px - 40px);
+    border: solid $color-bg 1px;
+    border-radius: $border-radius;
+    background-color: $color-input-select;
+    transition: border 0.2s ease-in-out;
+    &:focus {
+      outline: none;
+      border: solid $color-primary 1px;
+    }
+  }
+  &__send {
+    cursor: pointer;
+    margin-left: 20px;
+    transition: fill 0.2s ease-in-out;
+    &:hover {
+      path {
+        fill: $color-action-1;
+      }
+      rect {
+        stroke: $color-action-1;
+      }
+    }
+  }
 }

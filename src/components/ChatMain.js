@@ -225,19 +225,21 @@ class ChatMain extends React.Component {
         case difference < hourMs:
           const differenceMins = Math.ceil(difference / 1000 / 60);
           plural = differenceMins >= 2;
-          return `${differenceMins} ${plural ? "mins" : "min"} ago`;
+          return `Last active ${differenceMins} ${plural ? "mins" : "min"} ago`;
         case difference < dayMs:
           const differenceHours = Math.round(difference / 1000 / 60 / 60);
           plural = differenceHours >= 2;
-          return `${differenceHours} ${plural ? "hours" : "hour"} ago`;
+          return `Last active ${differenceHours} ${
+            plural ? "hours" : "hour"
+          } ago`;
         case difference < weekMs:
           dateString = new Date(timestamp).toString();
-          return `${dateString.split(" ")[0]}`;
+          return `Last active on ${dateString.split(" ")[0]}`;
         case difference < yearMs:
           dateString = new Date(timestamp).toString();
           dateArray = dateString.split(" ");
           dateFormatted = [dateArray[0], dateArray[1], dateArray[2]].join(" ");
-          return `${dateFormatted}`;
+          return `Last active in ${dateFormatted}`;
         case difference >= yearMs:
           dateString = new Date(timestamp).toString();
           dateArray = dateString.split(" ");
@@ -247,7 +249,7 @@ class ChatMain extends React.Component {
             dateArray[2],
             dateArray[3],
           ].join(" ");
-          return `${dateFormatted}`;
+          return `Last active in ${dateFormatted}`;
         default:
           //
           return "";
