@@ -162,15 +162,27 @@ class ChatMain extends React.Component {
                       />
                     )}
                   </div>
+                  {this.checkFriendTyping(
+                    friendEmail,
+                    this.state.usersTyping
+                  ) &&
+                    index === chat.messages.length - 1 && (
+                      // <div className="chat-main__body__message chat-main__body__message--friend">
+                      <div className="message message--friend typing">
+                        {/* <p>Friend is typing</p> */}
+                        <div class="ticontainer">
+                          <div class="tiblock">
+                            <div class="tidot tidot--1"></div>
+                            <div class="tidot tidot--2"></div>
+                            <div class="tidot tidot--3"></div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                 </>
               );
             })}
           </div>
-          {this.checkFriendTyping(friendEmail, this.state.usersTyping) && (
-            <div className="chat-main__body__message chat-main__body__message--friend">
-              {"Friend is typing..."}
-            </div>
-          )}
           <ChatInput
             sendMessage={sendMessage}
             sendGif={this.props.sendGif}
@@ -244,7 +256,10 @@ class ChatMain extends React.Component {
       if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
         this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
       }
-      if (prevProps.chat.messages.length < this.props.chat.messages.length) {
+      if (
+        prevProps.chat.messages.length < this.props.chat.messages.length
+        // || this.checkFriendTyping(this.props.friendEmail, this.state.usersTyping)
+      ) {
         const chatContainer = document.getElementById("chat-container");
         setTimeout(() => {
           if (chatContainer) {
