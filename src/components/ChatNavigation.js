@@ -47,13 +47,26 @@ class ChatNavigation extends React.Component {
             />
           </svg>
           <main className="chat-navigation__section">
-            <h1>All messages</h1>
+            {/* <h1>All messages</h1> */}
             <ul className="chat-navigation__section__chats">
               {this.state.orderedChats.map((chat, index) => {
                 return (
                   <li
                     key={index}
-                    className="chat-navigation__section__chats__chat"
+                    className={
+                      this.props.selectedChatIndex ===
+                      this.props.chats.findIndex(
+                        (element) => element === this.state.orderedChats[index]
+                      )
+                        ? "chat-navigation__section__chats__chat selected"
+                        : "chat-navigation__section__chats__chat"
+                    }
+                    // selected={
+                    //   this.props.selectedChatIndex ===
+                    //   this.props.chats.findIndex(
+                    //     (element) => element === this.state.orderedChats[index]
+                    //   )
+                    // }
                     // onClick={() => this.selectChat(index)}
                     onClick={() =>
                       this.selectChat(
@@ -116,16 +129,10 @@ class ChatNavigation extends React.Component {
               New chat
             </button> */}
           </main>
-          {/* <button
-            className="chat-navigation__toggle-nav"
-            onClick={this.props.toggleNav}
-          >
-            Go to ChatMain
-          </button> */}
-          <div className="chat-navigation__empty"></div>
+          <div className="empty"></div>
           <svg
-            width="48"
-            height="48"
+            width="36"
+            height="36"
             viewBox="0 0 48 48"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -137,6 +144,13 @@ class ChatNavigation extends React.Component {
               fill="#221E41"
             />
           </svg>
+          {/* <button
+            className="chat-navigation__toggle-nav"
+            onClick={this.props.toggleNav}
+          >
+            Go to ChatMain
+          </button> */}
+          {/* <div className="chat-navigation__empty"></div> */}
         </div>
       );
     } else {
@@ -166,8 +180,8 @@ class ChatNavigation extends React.Component {
               New chat
             </button> */}
             <svg
-              width="48"
-              height="48"
+              width="36"
+              height="36"
               viewBox="0 0 48 48"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -229,8 +243,19 @@ class ChatNavigation extends React.Component {
         );
         return friendName;
       });
+      const friendProfilePicturesPromises = orderedChats.map(
+        async (chat, index) => {
+          const friendProfilePicture = await this.findFriendProfilePicture(
+            chat.users.filter((user) => user !== this.props.email)[0]
+          );
+          return friendProfilePicture;
+        }
+      );
       const friendNames = await Promise.all(friendNamesPromises);
-      await this.setState({ orderedChats, friendNames });
+      const friendProfilePictures = await Promise.all(
+        friendProfilePicturesPromises
+      );
+      await this.setState({ orderedChats, friendNames, friendProfilePictures });
       console.log(friendNames);
     }
   };

@@ -13,6 +13,7 @@ class ChatMain extends React.Component {
     this.state = {
       usersTyping: [],
       friendLastLoggedOut: "",
+      chatOpacity: 0,
     };
   }
   render() {
@@ -125,7 +126,11 @@ class ChatMain extends React.Component {
               </div>
             )}
           </div>
-          <div className="chat-main__body" id="chat-container">
+          <div
+            className="chat-main__body"
+            id="chat-container"
+            style={{ opacity: this.state.chatOpacity }}
+          >
             {chat.messages.map((message, index) => {
               return (
                 <>
@@ -243,6 +248,7 @@ class ChatMain extends React.Component {
   buildDocKey = () =>
     [this.props.email, this.props.friendEmail].sort().join(":");
   componentDidMount = () => {
+    setTimeout(() => this.setState({ chatOpacity: 1 }), 2500);
     setTimeout(this.findUsersTyping, 2000);
     this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
     setInterval(
@@ -260,15 +266,35 @@ class ChatMain extends React.Component {
       }
     }, 1200);
   };
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = async (prevProps, prevState) => {
+    // if (prevProps.chat !== undefined && this.props.chat !== undefined) {
+    // if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
+    //   this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
+    // }
+    // if (prevProps.selectedChat !== this.props.selectedChat) {
+    //     this.setState({ chatOpacity: 0 });
+    // setTimeout(() => this.setState({ chatOpacity: 1 }), 300);
+    //   } else if (
+    //     prevProps.chat.messages.length < this.props.chat.messages.length
+    //     // || this.checkFriendTyping(this.props.friendEmail, this.state.usersTyping)
+    //   ) {
+    // const chatContainer = document.getElementById("chat-container");
+    // setTimeout(() => {
+    //   if (chatContainer) {
+    //     chatContainer.scrollTo({
+    //       left: 0,
+    //       top: chatContainer.scrollHeight,
+    //       behaviour: "smooth",
+    //     });
+    //   }
+    // }, 100);
+    //   }
+    // }
+
     if (prevProps.chat !== undefined && this.props.chat !== undefined) {
-      if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
-        this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
-      }
-      if (
-        prevProps.chat.messages.length < this.props.chat.messages.length
-        // || this.checkFriendTyping(this.props.friendEmail, this.state.usersTyping)
-      ) {
+      if (prevProps.selectedChat !== this.props.selectedChat) {
+        await this.setState({ chatOpacity: 0 });
+        setTimeout(() => this.setState({ chatOpacity: 1 }), 300);
         const chatContainer = document.getElementById("chat-container");
         setTimeout(() => {
           if (chatContainer) {
@@ -278,7 +304,22 @@ class ChatMain extends React.Component {
               behaviour: "smooth",
             });
           }
-        }, 40);
+        }, 300);
+      }
+      if (prevProps.chat.messages.length < this.props.chat.messages.length) {
+        const chatContainer = document.getElementById("chat-container");
+        setTimeout(() => {
+          if (chatContainer) {
+            chatContainer.scrollTo({
+              left: 0,
+              top: chatContainer.scrollHeight,
+              behaviour: "smooth",
+            });
+          }
+        }, 100);
+      }
+      if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
+        this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
       }
     }
   };

@@ -50,6 +50,7 @@ class Dashboard extends React.Component {
           friendEmail={this.state.friendEmail}
           friendName={this.state.friendName}
           chat={this.state.chats[this.state.selectedChat]}
+          selectedChat={this.state.selectedChat}
           newChatFormVisible={this.state.newChatFormVisible}
           sendMessage={this.sendMessage}
           sendGif={this.sendGif}

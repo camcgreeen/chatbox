@@ -28,7 +28,7 @@ class NewChat extends React.Component {
             placeholder="enter your message..."
             onChange={(e) => this.handleUserInput("message", e)}
           />
-          <h4 className="error-text">
+          <h4 className="error-text-new-chat">
             {this.state.newChatError ? this.state.newChatError : null}
           </h4>
           <button className="new-chat__submit btn btn--submit">Submit</button>
