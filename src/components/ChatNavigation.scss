@@ -1,17 +1,119 @@
 @import "../utilities/variables.scss";
 
+.logout {
+  align-self: flex-start;
+  margin-top: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+  path {
+    transition: fill 0.2s ease-in-out;
+  }
+  &:hover {
+    path {
+      fill: $color-danger;
+    }
+  }
+}
+
+.create-chat {
+  cursor: pointer;
+  margin-bottom: 20px;
+  path {
+    transition: fill 0.2s ease-in-out;
+  }
+  &:hover {
+    path {
+      fill: $color-action-1;
+    }
+  }
+}
+
 .chat-navigation {
-  width: 25vw;
+  // padding: 60px;
+  // width: 25vw;
+  // overflow-y: auto;
+  min-width: 360px;
   height: 100vh;
+  width: calc(25vw - 120px);
+  // height: calc(100vh - 120px);
   background-color: $color-bg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   // z-index: 0;
   z-index: 10;
   &__toggle-nav {
     display: none;
   }
   &__section {
+    width: 90%;
     max-height: 500px;
     overflow-y: auto;
+    h1 {
+      margin-top: 66px;
+      margin-bottom: 10px;
+      // margin-top: 20px;
+      font-weight: 600;
+      font-size: 1.25rem;
+      // text-align: center;
+    }
+    &__chats {
+      width: 100%;
+      &__chat {
+        cursor: pointer;
+        border: solid black 1px;
+        &__profile-picture {
+          position: relative;
+          width: 60px;
+          height: 60px;
+          img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+          &__cutout {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            // background-color: pink;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &__symbol {
+              width: 8px;
+              height: 8px;
+              background-color: $color-friend-active;
+              border-radius: 50%;
+            }
+          }
+        }
+        &__name {
+          font-weight: 600;
+        }
+        &__message {
+          max-width: 60%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        &__timestamp {
+        }
+        &__online-status {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background-color: $color-danger;
+        }
+      }
+    }
+  }
+  &__empty {
+    flex: 1;
   }
 }
 

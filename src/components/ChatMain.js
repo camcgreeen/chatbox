@@ -162,6 +162,15 @@ class ChatMain extends React.Component {
                       />
                     )}
                   </div>
+                  <div
+                    className={
+                      message.sender === email
+                        ? "timestamp timestamp--user"
+                        : "timestamp timestamp--friend"
+                    }
+                  >
+                    {this.convertChatBodyTimestamp(message.timestamp)}
+                  </div>
                   {this.checkFriendTyping(
                     friendEmail,
                     this.state.usersTyping
@@ -270,6 +279,37 @@ class ChatMain extends React.Component {
             });
           }
         }, 40);
+      }
+    }
+  };
+  convertChatBodyTimestamp = (timestamp) => {
+    if (timestamp) {
+      const dayMs = 86400000;
+      const weekMs = 604800000;
+      const yearMs = 31540000000;
+
+      const difference = Date.now() - timestamp;
+
+      const dateString = new Date(timestamp).toString();
+      const dateArr = dateString.split(" ");
+      const hourMinSeconds = dateString.split(" ")[4];
+      const hourMinArr = hourMinSeconds.split(":");
+      const hourMin = [hourMinArr[0], hourMinArr[1]].join(":");
+
+      switch (true) {
+        case difference < dayMs:
+          // const hourMinSeconds = dateString.split(" ")[4];
+          // const hourMinArr = hourMinSeconds.split(":");
+          // const hourMin = [hourMinArr[0], hourMinArr[1]].join(":");
+          return hourMin;
+        case difference < weekMs:
+          return `${dateString.split(" ")[0]}, ${hourMin}`;
+        case difference < yearMs:
+          return [dateArr[2], dateArr[1]].join(" ");
+        case difference >= yearMs:
+          return [dateArr[1], dateArr[2], dateArr[3]].join(" ");
+        default:
+          return "";
       }
     }
   };

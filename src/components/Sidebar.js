@@ -17,8 +17,14 @@ class Sidebar extends React.Component {
             /> */}
             <h1 className="sidebar__h1">Start a conversation with a friend.</h1>
             <h2 className="sidebar__h2">
-              <span>Chatbox</span> can connect you with anyone from around the
-              world
+              <a
+                href="https://github.com/camcgreen/chatbox"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Chatbox
+              </a>{" "}
+              can connect you with anyone from around the world
             </h2>
             <svg
               className="sidebar__globe"
