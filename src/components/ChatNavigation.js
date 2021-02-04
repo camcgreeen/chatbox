@@ -11,6 +11,7 @@ class ChatNavigation extends React.Component {
       orderedChats: [],
       friendNames: [],
       friendProfilePictures: [],
+      friendOnlineStatuses: [],
     };
   }
   render() {
@@ -83,7 +84,16 @@ class ChatNavigation extends React.Component {
                         alt=""
                       />
                       <div class="chat-navigation__section__chats__chat__profile-picture__cutout">
-                        <div class="chat-navigation__section__chats__chat__profile-picture__cutout__symbol"></div>
+                        <div
+                          class="chat-navigation__section__chats__chat__profile-picture__cutout__symbol"
+                          style={{
+                            backgroundColor: this.props.friendOnlineStatuses[
+                              index
+                            ]
+                              ? "#6EFF7C"
+                              : "#838191",
+                          }}
+                        ></div>
                       </div>
                     </div>
                     <div
@@ -120,7 +130,15 @@ class ChatNavigation extends React.Component {
                         chat.messages[chat.messages.length - 1].timestamp
                       )}`}
                     </div>
-                    <div className="chat-navigation__section__chats__chat__online-status"></div>
+                    <div
+                      className="chat-navigation__section__chats__chat__unread"
+                      style={{
+                        opacity:
+                          !chat.receiverHasRead && !this.userSentMessage(chat)
+                            ? 1
+                            : 0,
+                      }}
+                    ></div>
                   </li>
                 );
               })}
@@ -222,11 +240,27 @@ class ChatNavigation extends React.Component {
         return friendProfilePicture;
       }
     );
+    const friendOnlineStatusesPromises = orderedChats.map(
+      async (chat, index) => {
+        const friendOnlineStatus = await this.findFriendOnlineStatus(
+          chat.users.filter((user) => user !== this.props.email)[0]
+        );
+        return friendOnlineStatus;
+      }
+    );
     const friendNames = await Promise.all(friendNamesPromises);
     const friendProfilePictures = await Promise.all(
       friendProfilePicturesPromises
     );
-    await this.setState({ orderedChats, friendNames, friendProfilePictures });
+    const friendOnlineStatuses = await Promise.all(
+      friendOnlineStatusesPromises
+    );
+    await this.setState({
+      orderedChats,
+      friendNames,
+      friendProfilePictures,
+      friendOnlineStatuses,
+    });
     // console.log(friendNames);
   };
   componentDidUpdate = async (prevProps, prevState) => {
@@ -251,11 +285,27 @@ class ChatNavigation extends React.Component {
           return friendProfilePicture;
         }
       );
+      const friendOnlineStatusesPromises = orderedChats.map(
+        async (chat, index) => {
+          const friendOnlineStatus = await this.findFriendOnlineStatus(
+            chat.users.filter((user) => user !== this.props.email)[0]
+          );
+          return friendOnlineStatus;
+        }
+      );
       const friendNames = await Promise.all(friendNamesPromises);
       const friendProfilePictures = await Promise.all(
         friendProfilePicturesPromises
       );
-      await this.setState({ orderedChats, friendNames, friendProfilePictures });
+      const friendOnlineStatuses = await Promise.all(
+        friendOnlineStatusesPromises
+      );
+      await this.setState({
+        orderedChats,
+        friendNames,
+        friendProfilePictures,
+        friendOnlineStatuses,
+      });
       console.log(friendNames);
     }
   };
@@ -278,6 +328,15 @@ class ChatNavigation extends React.Component {
       .get();
     const profilePictureUrl = doc.data().profilePictureUrl;
     return profilePictureUrl;
+  };
+  findFriendOnlineStatus = async (friendEmail) => {
+    const doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(friendEmail)
+      .get();
+    const onlineStatus = doc.data().online;
+    return onlineStatus;
   };
   newChat = () => {
     this.props.newChat();

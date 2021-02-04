@@ -128,7 +128,7 @@
             height: 24px;
             border-radius: 50%;
             // background-color: pink;
-            background-color: white;
+            background-color: $color-bg;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -180,7 +180,13 @@
           font-weight: 300;
           font-size: 0.75rem;
         }
-        &__online-status {
+        &__unread {
+          animation: none !important;
+          -webkit-animation: none !important;
+          -moz-animation: none !important;
+          -o-animation: none !important;
+          -ms-animation: none !important;
+          transition: opacity 0.1s ease-in-out;
           width: 12px;
           height: 12px;
           border-radius: 50%;

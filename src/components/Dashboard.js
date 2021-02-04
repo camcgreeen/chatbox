@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
       friendEmail: null,
       friendName: null,
       friendProfilePicture: null,
+      friendOnlineStatuses: [],
       chats: [],
       online: false,
       friendOnline: false,
@@ -42,6 +43,7 @@ class Dashboard extends React.Component {
           chats={this.state.chats}
           email={this.state.email}
           selectedChatIndex={this.state.selectedChat}
+          friendOnlineStatuses={this.state.friendOnlineStatuses}
           logOut={this.logOut}
         />
         <ChatMain
@@ -85,12 +87,57 @@ class Dashboard extends React.Component {
           .collection("chats")
           .where("users", "array-contains", _usr.email)
           .onSnapshot(async (result) => {
+            console.log("UPDATING CHATS");
             const chats = result.docs.map((doc) => doc.data());
             await this.setState({ chats });
           });
+        await firebase
+          .firestore()
+          .collection("users")
+          .onSnapshot(async (result) => {
+            console.log("USERS CHANGED");
+            setTimeout(async () => {
+              if (this.state.chats.length > 0) {
+                // console.log(this.state.chats);
+                // console.log("usersInChats", usersInChats);
+                const chatsToOrder = [...this.state.chats];
+                const orderedChats = chatsToOrder.sort(
+                  (a, b) =>
+                    b.messages[b.messages.length - 1].timestamp -
+                    a.messages[a.messages.length - 1].timestamp
+                );
+                const index = this.state.chats.findIndex(
+                  (element) => element === orderedChats[0]
+                );
+                const usersInChats = orderedChats
+                  .map((chat) => {
+                    return chat.users.filter(
+                      (user) => user !== this.state.email
+                    );
+                    // return chat;
+                  })
+                  .flat();
+                const friendOnlineStatusesPromises = usersInChats.map(
+                  async (friend) => {
+                    const friendOnlineStatus = await this.findFriendOnlineStatus(
+                      friend
+                    );
+                    return friendOnlineStatus;
+                  }
+                );
+                const friendOnlineStatuses = await Promise.all(
+                  friendOnlineStatusesPromises
+                );
+                await this.setState({ friendOnlineStatuses });
+                this.selectChat(index);
+              }
+            }, 400);
+          });
         console.log(this.state);
-        setTimeout(() => {
+        setTimeout(async () => {
           if (this.state.chats.length > 0) {
+            // console.log(this.state.chats);
+            // console.log("usersInChats", usersInChats);
             const chatsToOrder = [...this.state.chats];
             const orderedChats = chatsToOrder.sort(
               (a, b) =>
@@ -100,11 +147,38 @@ class Dashboard extends React.Component {
             const index = this.state.chats.findIndex(
               (element) => element === orderedChats[0]
             );
+            // const usersInChats = orderedChats
+            //   .map((chat) => {
+            //     return chat.users.filter((user) => user !== this.state.email);
+            //     // return chat;
+            //   })
+            //   .flat();
+            // const friendOnlineStatusesPromises = usersInChats.map(
+            //   async (friend) => {
+            //     const friendOnlineStatus = await this.findFriendOnlineStatus(
+            //       friend
+            //     );
+            //     return friendOnlineStatus;
+            //   }
+            // );
+            // const friendOnlineStatuses = await Promise.all(
+            //   friendOnlineStatusesPromises
+            // );
+            // await this.setState({ friendOnlineStatuses });
             this.selectChat(index);
           }
         }, 400);
       }
     });
+  };
+  findFriendOnlineStatus = async (friendEmail) => {
+    const doc = await firebase
+      .firestore()
+      .collection("users")
+      .doc(friendEmail)
+      .get();
+    const onlineStatus = doc.data().online;
+    return onlineStatus;
   };
   updateOnlineStatus = () => {
     firebase
