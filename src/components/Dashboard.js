@@ -2,6 +2,8 @@ import React from "react";
 import ChatNavigation from "./ChatNavigation";
 import ChatMain from "./ChatMain";
 import Sidebar from "./Sidebar";
+import "../main.scss";
+import "./Dashboard.scss";
 // import { disableRightMiddleClick } from "../utilities/helper";
 // import "./main.scss";
 const firebase = require("firebase");
@@ -10,6 +12,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      fadeLoader: false,
       navOpen: true,
       selectedChat: null,
       newChatFormVisible: false,
@@ -28,12 +31,26 @@ class Dashboard extends React.Component {
   render() {
     return (
       <>
+        <div
+          className="loader-container"
+          style={{
+            transition: "opacity 0.6s ease-in-out",
+            opacity: this.state.fadeLoader ? 0 : 1,
+          }}
+        >
+          <img
+            className="loader-container__loader"
+            src="https://svgshare.com/i/TU9.svg"
+            alt=""
+          />
+        </div>
         {/* <button
           onClick={this.logOut}
           // style={{ position: "absolute", top: 200, left: 200 }}
         >
           Log out
         </button> */}
+
         <ChatNavigation
           // zIndexValue={this.state.navOpen ? 20 : 0}
           leftValue={this.state.navOpen ? 0 : "-150vw"}
@@ -166,6 +183,8 @@ class Dashboard extends React.Component {
             // );
             // await this.setState({ friendOnlineStatuses });
             this.selectChat(index);
+            setTimeout(() => this.setState({ fadeLoader: true }), 400);
+            // setTimeout(() => this.setState({ loaded: true }), 1000);
           }
         }, 400);
       }
