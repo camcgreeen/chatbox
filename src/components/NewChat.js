@@ -49,13 +49,18 @@ class NewChat extends React.Component {
   handleFormSubmit = async (e) => {
     e.preventDefault();
     const userExists = await this.checkUserExists();
+    const notCurrentUser = this.state.email !== this.props.email;
     const messageValid = this.messageValid(this.state.message);
     if (userExists) {
-      if (messageValid) {
-        const chatExists = await this.checkChatExists();
-        chatExists ? this.navigateToChat() : this.createNewChat();
+      if (notCurrentUser) {
+        if (messageValid) {
+          const chatExists = await this.checkChatExists();
+          chatExists ? this.navigateToChat() : this.createNewChat();
+        } else {
+          this.setState({ newChatError: "Cannot send an empty message." });
+        }
       } else {
-        this.setState({ newChatError: "Cannot send an empty message." });
+        this.setState({ newChatError: "Cannot send a message to yourself" });
       }
     } else {
       this.setState({ newChatError: "User does not exist." });

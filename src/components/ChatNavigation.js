@@ -154,7 +154,13 @@ class ChatNavigation extends React.Component {
             viewBox="0 0 48 48"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            onClick={this.newChat}
+            onClick={() => {
+              this.newChat();
+              this.props.toggleNav();
+              // setTimeout(() => {
+
+              // }, 1000);
+            }}
             className="create-chat"
           >
             <path
@@ -203,7 +209,12 @@ class ChatNavigation extends React.Component {
               viewBox="0 0 48 48"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              onClick={this.newChat}
+              onClick={() => {
+                this.newChat();
+                setTimeout(() => {
+                  this.props.toggleNav();
+                }, 1000);
+              }}
               className="create-chat"
             >
               <path

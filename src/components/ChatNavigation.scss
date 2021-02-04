@@ -215,12 +215,18 @@
 
 @media only screen and (max-width: 1024px) {
   .chat-navigation {
+    // overflow: scroll;
     transition: left 0.1s ease-in-out;
     position: absolute;
+    // width: 100vw;
+    padding: 0;
     width: 100vw;
+    min-width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
+    // align-items: flex-start;
+    align-items: center;
     &__toggle-nav {
       display: block;
     }

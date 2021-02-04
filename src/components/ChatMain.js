@@ -32,6 +32,7 @@ class ChatMain extends React.Component {
             <NewChat
               navigateToChat={this.props.navigateToChat}
               createNewChat={this.props.createNewChat}
+              email={this.props.email}
             />
           ) : (
             <>

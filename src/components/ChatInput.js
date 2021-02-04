@@ -137,10 +137,13 @@ class ChatInput extends React.Component {
             // style={gifPickerStyle}
             onSelect={(item) => this.sendGif(item)}
             searchPlaceholder={"Search GIFs..."}
-            gifListHeight={400}
+            gifListHeight={300}
             masonryConfig={[
-              { columns: 2, imageWidth: 110, gutter: 5 },
-              { mq: "850px", columns: 1, imageWidth: 400, gutter: 5 },
+              { columns: 2, imageWidth: 80, gutter: 5 },
+              // { columns: 1, imageWidth: 400, gutter: 5 },
+              // { columns: 2, imageWidth: 80, gutter: 5 },
+              // { mq: "375px", columns: 2, imageWidth: 120, gutter: 5 },
+              { mq: "850px", columns: 1, imageWidth: 300, gutter: 5 },
             ]}
           />
         </div>
