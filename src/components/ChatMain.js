@@ -156,7 +156,7 @@ class ChatMain extends React.Component {
                                 hello@camgreen.works
                               </a>
                               {
-                                " and I will get back to you as soon as possible! 😀"
+                                " and I will get back to you as soon as I can! 😀"
                               }
                             </p>
                           ) : (

@@ -92,11 +92,19 @@
       animation-iteration-count: 1;
       animation-timing-function: ease-out;
       margin-top: 100px;
-      width: 400px;
+      width: 500px;
       height: 500px;
-      background-color: white;
+      background-color: #fafaff;
       border-radius: $border-radius;
       box-shadow: 0px 4px 20px rgba(34, 30, 65, 0.5);
+      position: relative;
+      img {
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
     &__circle {
       position: absolute;
@@ -120,6 +128,9 @@
         z-index: -10;
         height: 200vh;
         width: 200vh;
+      }
+      &__preview {
+        width: 400px;
       }
     }
   }

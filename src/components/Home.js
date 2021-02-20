@@ -55,7 +55,9 @@ class Home extends React.Component {
                 </button>
               </div>
               <div className="home__right">
-                <div className="home__right__preview"></div>
+                <div className="home__right__preview">
+                  <img src="https://svgshare.com/i/UG2.svg" alt="" />
+                </div>
               </div>
             </div>
           </>
