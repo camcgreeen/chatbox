@@ -114,7 +114,6 @@ class NewChat extends React.Component {
       .collection("chats")
       .doc(docKey)
       .get();
-    console.log(chat.exists);
     return chat.exists;
   };
   checkUserExists = async () => {
