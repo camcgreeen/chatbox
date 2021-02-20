@@ -1,5 +1,4 @@
 import React from "react";
-// import { disableRightMiddleClick } from "../utilities/helper";
 import ChatInput from "./ChatInput";
 import NewChat from "./NewChat";
 import "../main.scss";
@@ -37,10 +36,6 @@ class ChatMain extends React.Component {
             />
           ) : (
             <>
-              ChatMain
-              {/*<button className="toggle-nav" onClick={toggleNav}>
-                Go to ChatNavigation
-              </button> */}
               <svg
                 width="20"
                 height="20"
@@ -76,9 +71,6 @@ class ChatMain extends React.Component {
       return (
         <div className="chat-main">
           <div className="chat-main__header">
-            {/* <button className="toggle-nav" onClick={toggleNav}>
-              Go to ChatNavigation
-            </button> */}
             <svg
               width="24"
               height="24"
@@ -107,9 +99,6 @@ class ChatMain extends React.Component {
               </defs>
             </svg>
             <h1>{this.props.friendName}</h1>
-            {/* {this.props.friendOnline
-              ? " | (online_symbol) | Active"
-              : ` | (offline_symbol) ${this.state.friendLastLoggedOut}`} */}
             {this.props.friendOnline ? (
               <div className="chat-main__header__friend">
                 <div
@@ -153,13 +142,6 @@ class ChatMain extends React.Component {
                               : "message message--friend"
                           }
                         >
-                          {/* {message.message.split(" ").map((word) => {
-                            return this.checkIfUrl(word) ? (
-                              <a href={word}>word</a>
-                            ) : (
-                              word
-                            );
-                          })} */}
                           {message.message ===
                           "Feel free to contact me right here, or on my email address mailto:hello@camgreen.works, and I will get back to you as soon as I can! 😀" ? (
                             <p>
@@ -181,7 +163,6 @@ class ChatMain extends React.Component {
                             message.message
                           )}
                         </div>
-                        {/* <div className=""></div> */}
                       </>
                     ) : (
                       <img
@@ -209,9 +190,7 @@ class ChatMain extends React.Component {
                     this.state.usersTyping
                   ) &&
                     index === chat.messages.length - 1 && (
-                      // <div className="chat-main__body__message chat-main__body__message--friend">
                       <div className="message message--friend typing">
-                        {/* <p>Friend is typing</p> */}
                         <div class="ticontainer">
                           <div class="tiblock">
                             <div class="tidot tidot--1"></div>
@@ -236,17 +215,6 @@ class ChatMain extends React.Component {
         </div>
       );
     }
-    // return (
-    //   <div className="chat-main">
-    //     ChatMain
-    //     <button
-    //       className="chat-main__toggle-nav"
-    //       onClick={this.props.toggleNav}
-    //     >
-    //       Go to ChatNavigation
-    //     </button>
-    //   </div>
-    // );
   }
   findUsersTyping = () => {
     firebase
@@ -300,30 +268,6 @@ class ChatMain extends React.Component {
     }, 1200);
   };
   componentDidUpdate = async (prevProps, prevState) => {
-    // if (prevProps.chat !== undefined && this.props.chat !== undefined) {
-    // if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
-    //   this.updateHeaderTimestamp(this.props.friendLastLoggedOut);
-    // }
-    // if (prevProps.selectedChat !== this.props.selectedChat) {
-    //     this.setState({ chatOpacity: 0 });
-    // setTimeout(() => this.setState({ chatOpacity: 1 }), 300);
-    //   } else if (
-    //     prevProps.chat.messages.length < this.props.chat.messages.length
-    //     // || this.checkFriendTyping(this.props.friendEmail, this.state.usersTyping)
-    //   ) {
-    // const chatContainer = document.getElementById("chat-container");
-    // setTimeout(() => {
-    //   if (chatContainer) {
-    //     chatContainer.scrollTo({
-    //       left: 0,
-    //       top: chatContainer.scrollHeight,
-    //       behaviour: "smooth",
-    //     });
-    //   }
-    // }, 100);
-    //   }
-    // }
-
     if (prevProps.chat !== undefined && this.props.chat !== undefined) {
       if (prevProps.selectedChat !== this.props.selectedChat) {
         await this.setState({ chatOpacity: 0 });
@@ -361,9 +305,7 @@ class ChatMain extends React.Component {
       const dayMs = 86400000;
       const weekMs = 604800000;
       const yearMs = 31540000000;
-
       const difference = Date.now() - timestamp;
-
       const dateString = new Date(timestamp).toString();
       const dateArr = dateString.split(" ");
       const hourMinSeconds = dateString.split(" ")[4];
@@ -372,9 +314,6 @@ class ChatMain extends React.Component {
 
       switch (true) {
         case difference < dayMs:
-          // const hourMinSeconds = dateString.split(" ")[4];
-          // const hourMinArr = hourMinSeconds.split(":");
-          // const hourMin = [hourMinArr[0], hourMinArr[1]].join(":");
           return hourMin;
         case difference < weekMs:
           return `${dateString.split(" ")[0]}, ${hourMin}`;
@@ -397,10 +336,7 @@ class ChatMain extends React.Component {
       const dayMs = 86400000;
       const weekMs = 604800000;
       const yearMs = 31540000000;
-
       const difference = Date.now() - timestamp;
-      // const difference = yearMs;
-
       let plural;
       let dateString;
       let dateArray;
@@ -436,7 +372,6 @@ class ChatMain extends React.Component {
           ].join(" ");
           return `Last active in ${dateFormatted}`;
         default:
-          //
           return "";
       }
     }
