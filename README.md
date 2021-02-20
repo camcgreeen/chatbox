@@ -2,7 +2,7 @@
 
 Chat with friends, whenever and wherever. 
 
-[chatbox.web.app](https://chatbox.web.app/)
+[https://chatbox-7b75a.web.app/](https://chatbox-7b75a.web.app/)
 
 ![Chatbox - Dashboard](https://i.imgur.com/FibYGuk.png)
 
