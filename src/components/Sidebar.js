@@ -1,7 +1,7 @@
 import React from "react";
-// import { disableRightMiddleClick } from "../utilities/helper";
 import "../main.scss";
 import "./Sidebar.scss";
+
 const firebase = require("firebase");
 
 class Sidebar extends React.Component {
@@ -10,11 +10,6 @@ class Sidebar extends React.Component {
       if (this.props.newChatFormVisible) {
         return (
           <div className="sidebar">
-            {/* <img
-              className="sidebar__profile-picture"
-              src={this.props.friendProfilePicture}
-              alt={`${this.props.friendName}'s profile picture`}
-            /> */}
             <h1 className="sidebar__h1">Start a conversation with a friend.</h1>
             <h2 className="sidebar__h2">
               <a
@@ -177,7 +172,6 @@ class Sidebar extends React.Component {
           <h3 className="sidebar__h3">
             Friends since{" "}
             {this.getFormattedDate(new Date(this.props.friendsSince))}
-            {/* {new Date(this.props.friendsSince)} */}
           </h3>
           <div className="sidebar__empty"></div>
           <a
@@ -204,14 +198,11 @@ class Sidebar extends React.Component {
     }
   }
   getFormattedDate = (date) => {
-    var year = date.getFullYear();
-
-    var month = (1 + date.getMonth()).toString();
+    const year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString();
     month = month.length > 1 ? month : "0" + month;
-
-    var day = date.getDate().toString();
+    let day = date.getDate().toString();
     day = day.length > 1 ? day : "0" + day;
-
     return day + "/" + month + "/" + year;
   };
 }
