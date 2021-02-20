@@ -1,5 +1,4 @@
 import React from "react";
-// import { disableRightMiddleClick } from "../utilities/helper";
 import "../main.scss";
 import "./ChatNavigation.scss";
 const firebase = require("firebase");
@@ -15,20 +14,9 @@ class ChatNavigation extends React.Component {
     };
   }
   render() {
-    // const chatsToOrder = [...this.props.chats];
-    // const orderedChats = chatsToOrder.sort(
-    //   (a, b) =>
-    //     b.messages[b.messages.length - 1].timestamp -
-    //     a.messages[a.messages.length - 1].timestamp
-    // );
     if (this.state.orderedChats.length > 0) {
       return (
-        <div
-          className="chat-navigation"
-          // style={{ zIndex: this.props.zIndexValue }}
-          style={{ left: this.props.leftValue }}
-        >
-          {/* <button onClick={this.props.logOut}>Log out</button> */}
+        <div className="chat-navigation" style={{ left: this.props.leftValue }}>
           <svg
             width="24"
             height="24"
@@ -48,7 +36,6 @@ class ChatNavigation extends React.Component {
             />
           </svg>
           <main className="chat-navigation__section">
-            {/* <h1>All messages</h1> */}
             <ul className="chat-navigation__section__chats">
               {this.state.orderedChats.map((chat, index) => {
                 return (
@@ -62,13 +49,6 @@ class ChatNavigation extends React.Component {
                         ? "chat-navigation__section__chats__chat selected"
                         : "chat-navigation__section__chats__chat"
                     }
-                    // selected={
-                    //   this.props.selectedChatIndex ===
-                    //   this.props.chats.findIndex(
-                    //     (element) => element === this.state.orderedChats[index]
-                    //   )
-                    // }
-                    // onClick={() => this.selectChat(index)}
                     onClick={() =>
                       this.selectChat(
                         this.props.chats.findIndex(
@@ -96,33 +76,14 @@ class ChatNavigation extends React.Component {
                         ></div>
                       </div>
                     </div>
-                    <div
-                      className="chat-navigation__section__chats__chat__name"
-                      // style={{
-                      //   fontWeight:
-                      //     !chat.receiverHasRead && !this.userSentMessage(chat)
-                      //       ? 700
-                      //       : 400,
-                      // }}
-                    >
-                      {
-                        // chat.users.filter(
-                        //   (user) => user !== this.props.email
-                        // )[0]
-                        this.state.friendNames[index]
-                      }
+                    <div className="chat-navigation__section__chats__chat__name">
+                      {this.state.friendNames[index]}
                     </div>
                     <div className="chat-navigation__section__chats__chat__message">
                       <>
-                        {/* {chat.messages[
-                          chat.messages.length - 1
-                        ].message.substring(0, 30)} */}
                         {chat.messages[chat.messages.length - 1].message !==
                         null
-                          ? // chat.messages[
-                            //     chat.messages.length - 1
-                            //   ].message.substring(0, 30)
-                            chat.messages[chat.messages.length - 1].message
+                          ? chat.messages[chat.messages.length - 1].message
                           : "GIF"}
                       </>
                     </div>
@@ -144,9 +105,6 @@ class ChatNavigation extends React.Component {
                 );
               })}
             </ul>
-            {/* <button className="btn btn--new-chat" onClick={this.newChat}>
-              New chat
-            </button> */}
           </main>
           <div className="empty"></div>
           <svg
@@ -158,9 +116,6 @@ class ChatNavigation extends React.Component {
             onClick={() => {
               this.newChat();
               this.props.toggleNav();
-              // setTimeout(() => {
-
-              // }, 1000);
             }}
             className="create-chat"
           >
@@ -169,19 +124,11 @@ class ChatNavigation extends React.Component {
               fill="#221E41"
             />
           </svg>
-          {/* <button
-            className="chat-navigation__toggle-nav"
-            onClick={this.props.toggleNav}
-          >
-            Go to ChatMain
-          </button> */}
-          {/* <div className="chat-navigation__empty"></div> */}
         </div>
       );
     } else {
       return (
         <div className="chat-navigation">
-          {/* <button onClick={this.props.logOut}>Log out</button> */}
           <svg
             width="24"
             height="24"
@@ -201,9 +148,6 @@ class ChatNavigation extends React.Component {
             />
           </svg>
           <main className="chat-navigation__section">
-            {/* <button className="btn btn--new-chat" onClick={this.newChat}>
-              New chat
-            </button> */}
             <svg
               width="36"
               height="36"
@@ -228,7 +172,6 @@ class ChatNavigation extends React.Component {
       );
     }
   }
-  //REFACTOR FINDING FRIEND INFO INTO A METHOD AS THIS IS MESSY AND REPETITIVE
   componentDidMount = async () => {
     const chatsToOrder = [...this.props.chats];
     const orderedChats = chatsToOrder.sort(
@@ -236,8 +179,6 @@ class ChatNavigation extends React.Component {
         b.messages[b.messages.length - 1].timestamp -
         a.messages[a.messages.length - 1].timestamp
     );
-    // let friendNamePromises;
-    // let friendNProfilePicturesPromises;
     const friendNamesPromises = orderedChats.map(async (chat, index) => {
       const friendName = await this.findFriendName(
         chat.users.filter((user) => user !== this.props.email)[0]
@@ -273,7 +214,6 @@ class ChatNavigation extends React.Component {
       friendProfilePictures,
       friendOnlineStatuses,
     });
-    // console.log(friendNames);
   };
   componentDidUpdate = async (prevProps, prevState) => {
     if (prevProps.chats !== this.props.chats) {
@@ -318,7 +258,6 @@ class ChatNavigation extends React.Component {
         friendProfilePictures,
         friendOnlineStatuses,
       });
-      console.log(friendNames);
     }
   };
   findFriendName = async (friendEmail) => {
@@ -330,7 +269,6 @@ class ChatNavigation extends React.Component {
     const nameFirst = doc.data().nameFirst;
     const nameLast = doc.data().nameLast;
     return `${nameFirst} ${nameLast}`;
-    // console.log(`${nameFirst} ${nameLast}`);
   };
   findFriendProfilePicture = async (friendEmail) => {
     const doc = await firebase
