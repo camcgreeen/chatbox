@@ -1,8 +1,12 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { disableRightMiddleClick } from "../utilities/helpers";
+import {
+  disableRightMiddleClick,
+  generateRandomString,
+} from "../utilities/helpers";
 import "../main.scss";
 import "./Home.scss";
+
 const firebase = require("firebase");
 
 class Home extends React.Component {
@@ -51,15 +55,7 @@ class Home extends React.Component {
                 </button>
               </div>
               <div className="home__right">
-                <div className="home__right__preview">
-                  {/* <video muted loop playsInline>
-                    <source
-                      src="https://streamable.com/xbjymg"
-                      type="video/mp4"
-                    />
-                  </video> */}
-                </div>
-                {/* <div className="home__right__circle"></div> */}
+                <div className="home__right__preview"></div>
               </div>
             </div>
           </>
@@ -79,8 +75,6 @@ class Home extends React.Component {
   }
   componentDidMount = async () => {
     disableRightMiddleClick();
-    // GET RID OF THIS LINE
-    window.sessionStorage.clear();
     if (window.sessionStorage.getItem("firstLoadDone") === null) {
       await this.setState({ loaded: false });
       window.sessionStorage.setItem("firstLoadDone", 1);
@@ -92,7 +86,7 @@ class Home extends React.Component {
     setTimeout(() => this.setState({ animationCompleted: true }), 1000);
   };
   createAndLoginDemoUser = async () => {
-    const demoUser = this.generateRandomString(10);
+    const demoUser = generateRandomString(10);
     const demoEmail = `${demoUser}@gmail.com`;
     const demoPassword = "thisisademo";
     await this.setState({ email: demoEmail, password: demoPassword });
@@ -104,7 +98,6 @@ class Home extends React.Component {
       )
       .then(
         (authRes) => {
-          console.log("authRes = ", authRes);
           const userObj = {
             email: authRes.user.email,
             nameFirst: "Demo",
@@ -113,8 +106,6 @@ class Home extends React.Component {
             online: false,
             profilePictureUrl: "https://i.imgur.com/ZtGfcXy.png",
           };
-          // this is the bit where we add the user to our database
-          // this is separate to firebase authentication bit
           firebase
             .firestore()
             .collection("users")
@@ -125,7 +116,6 @@ class Home extends React.Component {
                 const camEmail = "c.c.green@outlook.com";
                 const chatCamUsers = [camEmail, this.state.email].sort();
                 const chatCamDocKey = chatCamUsers.join(":");
-                console.log(`chatCamDocKey = ${chatCamDocKey}`);
                 const chatCamObj = {
                   messages: [
                     {
@@ -188,7 +178,6 @@ class Home extends React.Component {
                   user2Typing: false,
                   users: chatCamUsers,
                 };
-                console.log("setting up chat with Cam", chatCamObj);
                 firebase
                   .firestore()
                   .collection("chats")
@@ -291,23 +280,14 @@ class Home extends React.Component {
                   });
               },
               (dbError) => {
-                console.log(dbError);
                 this.setState({ signupError: "Failed to add user" });
               }
             );
         },
         (authError) => {
-          console.log(authError);
           this.setState({ signupError: authError.message });
         }
       );
-  };
-  generateRandomString = (length) => {
-    const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-    let result = "";
-    for (let i = length; i > 0; --i)
-      result += chars[Math.round(Math.random() * (chars.length - 1))];
-    return result;
   };
 }
 
