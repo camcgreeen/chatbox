@@ -135,7 +135,7 @@
 
 @media only screen and (max-width: 1024px) {
   .emoji-mart {
-    max-width: 250px;
+    max-width: 350px;
   }
   .chat-input {
     padding: 0 12px;
@@ -157,4 +157,10 @@
   //   max-width: 200px;
   //   height: 200px;
   // }
+}
+
+@media only screen and (max-width: 400px) {
+  .emoji-mart {
+    max-width: 250px;
+  }
 }

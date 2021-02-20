@@ -405,7 +405,7 @@ class ChatMain extends React.Component {
           dateString = new Date(timestamp).toString();
           dateArray = dateString.split(" ");
           dateFormatted = [dateArray[0], dateArray[1], dateArray[2]].join(" ");
-          return `Last active in ${dateFormatted}`;
+          return `Last active on ${dateFormatted}`;
         case difference >= yearMs:
           dateString = new Date(timestamp).toString();
           dateArray = dateString.split(" ");

@@ -143,7 +143,8 @@ class ChatInput extends React.Component {
               // { columns: 1, imageWidth: 400, gutter: 5 },
               // { columns: 2, imageWidth: 80, gutter: 5 },
               // { mq: "375px", columns: 2, imageWidth: 120, gutter: 5 },
-              { mq: "850px", columns: 1, imageWidth: 300, gutter: 5 },
+              { mq: "1024px", columns: 1, imageWidth: 350, gutter: 5 },
+              { mq: "400px", columns: 1, imageWidth: 250, gutter: 5 },
             ]}
           />
         </div>
