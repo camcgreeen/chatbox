@@ -1,8 +1,8 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
-// import { disableRightMiddleClick } from "../utilities/helper";
-// import "./main.scss";
+import { disableRightMiddleClick } from "../utilities/helpers";
+import "../main.scss";
 const firebase = require("firebase");
 
 class Signup extends React.Component {
@@ -75,6 +75,9 @@ class Signup extends React.Component {
       </>
     );
   }
+  componentDidMount = () => {
+    disableRightMiddleClick();
+  };
   checkNameValid = (name) => {
     const regex = /^[a-zA-Z]+$/;
     return regex.test(name);

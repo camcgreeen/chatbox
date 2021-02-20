@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from ".//Navbar";
 import { Link } from "react-router-dom";
-// import { disableRightMiddleClick } from "../utilities/helper";
+import { disableRightMiddleClick } from "../utilities/helpers";
 import "../main.scss";
 import "./FormAuthentication.scss";
 const firebase = require("firebase");
@@ -57,6 +57,9 @@ class Login extends React.Component {
       </>
     );
   }
+  componentDidMount = () => {
+    disableRightMiddleClick();
+  };
   handleUserInput = (type, e) => {
     switch (type) {
       case "email":

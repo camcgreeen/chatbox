@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-// import { disableRightMiddleClick } from "../utilities/helper";
+import { disableRightMiddleClick } from "../utilities/helpers";
 import "../main.scss";
 import "./Home.scss";
 const firebase = require("firebase");
@@ -23,12 +23,7 @@ class Home extends React.Component {
           <>
             <Navbar />
             <img className="bg" src="https://svgshare.com/i/TcG.svg" alt="" />
-            <div
-              className="home"
-              // style={{
-              //   overflowY: this.state.animationCompleted ? "auto" : "hidden",
-              // }}
-            >
+            <div className="home">
               <div className="home__left">
                 <h1 className="home__left__h1">
                   Chat with friends, whenever and wherever.
@@ -83,6 +78,7 @@ class Home extends React.Component {
     );
   }
   componentDidMount = async () => {
+    disableRightMiddleClick();
     // GET RID OF THIS LINE
     window.sessionStorage.clear();
     if (window.sessionStorage.getItem("firstLoadDone") === null) {

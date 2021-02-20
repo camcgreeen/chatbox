@@ -4,8 +4,8 @@ import ChatMain from "./ChatMain";
 import Sidebar from "./Sidebar";
 import "../main.scss";
 import "./Dashboard.scss";
-// import { disableRightMiddleClick } from "../utilities/helper";
-// import "./main.scss";
+import { disableRightMiddleClick } from "../utilities/helpers";
+import "../main.scss";
 const firebase = require("firebase");
 
 class Dashboard extends React.Component {
@@ -92,6 +92,7 @@ class Dashboard extends React.Component {
     // return <h1>Dashboard</h1>;
   }
   componentDidMount = async () => {
+    disableRightMiddleClick();
     document.title = "Chatbox";
     firebase.auth().onAuthStateChanged(async (_usr) => {
       if (!_usr) {
