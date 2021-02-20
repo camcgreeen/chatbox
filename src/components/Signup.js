@@ -183,7 +183,7 @@ class Signup extends React.Component {
                     },
                     {
                       gifRef:
-                        "https://media3.giphy.com/media/SRlLBrVq3YL5TzIuuG/giphy.gif?cid=054422c3641b6rgvp84jzpz3ff4ojg5f119wi4djqu501one&rid=giphy.gif",
+                        "https://media4.giphy.com/media/p6P5KdqRljCrVoZj79/giphy.gif?cid=054422c3eurumthxw6z3v80yrujtkke22l1c4uwyzgeqd7f3&rid=giphy.gif",
                       message: null,
 
                       sender: camEmail,
@@ -215,15 +215,7 @@ class Signup extends React.Component {
                     {
                       gifRef: null,
                       message:
-                        "You can find the link to the GitHub repo here: https://github.com/camcgreen/chatbox",
-
-                      sender: camEmail,
-                      timestamp: Date.now() - 60000 * 1,
-                    },
-                    {
-                      gifRef: null,
-                      message:
-                        "Feel free to contact me right here, or on my email address mailto:hello@camgreen.works, and I will get back to you as soon as possible! 😀",
+                        "Feel free to contact me right here, or on my email address mailto:hello@camgreen.works, and I will get back to you as soon as I can! 😀",
 
                       sender: camEmail,
                       timestamp: Date.now(),

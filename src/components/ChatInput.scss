@@ -13,7 +13,6 @@
 }
 
 .picker-gif {
-  // overflow: overlay;
   animation: none !important;
   transition: opacity 0.2s ease-in-out;
   background-color: $color-bg;
@@ -33,35 +32,23 @@
       border: solid $color-primary 1px;
     }
   }
-  img {
-    // width: 20px;
-    // margin-right: 20px;
-  }
 }
 
 .reactGiphySearchbox-listWrapper {
   overflow: overlay !important;
   &::-webkit-scrollbar {
-    // display: none;
     background: none;
     width: 8px;
-    // &-track {
-    //   background-color: #ac6c6c;
-    // }
     &-thumb {
       background-color: lightgrey;
       border-radius: 12px;
     }
   }
-  // background-color: pink;
-  // width: 415px !important;
-  // width: 100% !important;
 }
 
 .chat-input {
   position: relative;
   height: 100px;
-  // background-color: hotpink;
   padding: 0 24px;
   display: flex;
   flex-direction: row;
@@ -80,12 +67,6 @@
       }
     }
   }
-  // &__picker-emoji {
-  //   position: absolute;
-  //   bottom: 0;
-  //   left: 0;
-  //   background: yellow;
-  // }
   &__gif {
     cursor: pointer;
     margin-right: 20px;
@@ -143,20 +124,6 @@
       padding: 20px 20px;
     }
   }
-  // .picker-gif {
-  //   max-width: 200px;
-  //   input {
-  //     max-width: 200px;
-  //   }
-  //   img {
-  //     max-width: 200px;
-  //     // object-fit: cover;
-  //   }
-  // }
-  // .reactGiphySearchbox-imageButton {
-  //   max-width: 200px;
-  //   height: 200px;
-  // }
 }
 
 @media only screen and (max-width: 400px) {

@@ -23,7 +23,6 @@ class ChatInput extends React.Component {
       position: "absolute",
       bottom: 100,
       left: 24,
-      // animation: "none !important",
       opacity: this.state.showEmojiPicker ? 1 : 0,
       pointerEvents: this.state.showEmojiPicker ? "all" : "none",
     };
@@ -31,26 +30,11 @@ class ChatInput extends React.Component {
       position: "absolute",
       bottom: 100,
       left: 76,
-      // animation: "none !important",
       opacity: this.state.showGifPicker ? 1 : 0,
       pointerEvents: this.state.showGifPicker ? "all" : "none",
     };
     return (
       <div className="chat-input">
-        {/* <button
-          className="btn"
-          variant="contained"
-          color="primary"
-          type="submit"
-          onClick={() =>
-            this.setState({
-              showEmojiPicker: !this.state.showEmojiPicker,
-              showGifPicker: false,
-            })
-          }
-        >
-          Emoji
-        </button> */}
         <svg
           width="32"
           height="32"
@@ -64,35 +48,11 @@ class ChatInput extends React.Component {
             fill={this.state.showEmojiPicker ? "#6937FF" : "#221E41"}
           />
         </svg>
-
-        {/* {this.state.showEmojiPicker && ( */}
         <Picker
-          // className={classes.emojiPicker}
-          // className="chat-input__picker-emoji"
           style={emojiPickerStyle}
-          // ref={this.refEmoji}
-          // ref={(node) => (this.refEmoji = node)}
-          // onSelect={(emoji) => alert("Hey:" + emoji.native)}
           id="emoji-picker"
           onSelect={(emoji) => this.addEmoji(emoji.native)}
-          // tabIndex="0"
-          // onBlur={() => this.setState({ showEmojiPicker: false })}
         />
-        {/* )} */}
-        {/* <button
-          className="btn"
-          variant="contained"
-          color="primary"
-          type="submit"
-          onClick={() =>
-            this.setState({
-              showGifPicker: !this.state.showGifPicker,
-              showEmojiPicker: false,
-            })
-          }
-        >
-          GIFs
-        </button> */}
         <svg
           width="32"
           height="32"
@@ -100,12 +60,6 @@ class ChatInput extends React.Component {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           className="chat-input__gif"
-          // onClick={() =>
-          //   this.setState({
-          //     showGifPicker: !this.state.showGifPicker,
-          //     showEmojiPicker: false,
-          //   })
-          // }
         >
           <path
             d="M19.5 13.5H17.25V22.5H19.5V13.5Z"
@@ -129,20 +83,14 @@ class ChatInput extends React.Component {
             stroke-width="2"
           />
         </svg>
-
-        {/* NEED TO CHANGE THIS AS API KEY IS EXPOSED */}
         <div className="picker-gif" style={gifPickerStyle}>
           <ReactGiphySearchbox
             apiKey="i618OfhaYgdDxaTqaH1k6Ok37Wg7dy4h"
-            // style={gifPickerStyle}
             onSelect={(item) => this.sendGif(item)}
             searchPlaceholder={"Search GIFs..."}
             gifListHeight={300}
             masonryConfig={[
               { columns: 2, imageWidth: 80, gutter: 5 },
-              // { columns: 1, imageWidth: 400, gutter: 5 },
-              // { columns: 2, imageWidth: 80, gutter: 5 },
-              // { mq: "375px", columns: 2, imageWidth: 120, gutter: 5 },
               { mq: "1024px", columns: 1, imageWidth: 350, gutter: 5 },
               { mq: "400px", columns: 1, imageWidth: 250, gutter: 5 },
             ]}
@@ -157,9 +105,6 @@ class ChatInput extends React.Component {
           onBlur={() => this.setState({ userTyping: false })}
           onFocus={this.userClickedInput}
         />
-        {/* <button className="btn btn--send-message" onClick={this.sendMessage}>
-          Send
-        </button> */}
         <svg
           width="32"
           height="32"
@@ -178,16 +123,6 @@ class ChatInput extends React.Component {
     );
   }
   componentDidMount() {
-    // const specifiedElement = document.querySelector(".emoji-mart");
-    // document.addEventListener("click", function (event) {
-    //   console.log(specifiedElement);
-    //   var isClickInside = specifiedElement.contains(event.target);
-    //   if (isClickInside) {
-    //     console.log("You clicked inside");
-    //   } else {
-    //     console.log("You clicked outside");
-    //   }
-    // });
     document.addEventListener("click", this.handleClickOutsideEmoji, false);
     document.addEventListener("click", this.handleClickOutsideGif, false);
   }
@@ -201,7 +136,6 @@ class ChatInput extends React.Component {
     const clickedInPickerEmoji = pickerEmoji.contains(e.target);
     const clickedInSymbolEmoji = symbolEmoji.contains(e.target);
     if (clickedInPickerEmoji) {
-      // console.log("You clicked inside");
     } else {
       if (clickedInSymbolEmoji) {
         this.setState({
@@ -219,7 +153,6 @@ class ChatInput extends React.Component {
     const clickedInPickerGif = pickerGif.contains(e.target);
     const clickedInSymbolGif = symbolGif.contains(e.target);
     if (clickedInPickerGif) {
-      // console.log("You clicked inside");
     } else {
       if (clickedInSymbolGif) {
         this.setState({
@@ -247,47 +180,20 @@ class ChatInput extends React.Component {
     const userIndex = userEmails.findIndex((user) => user === this.props.email);
     if (this.props.chat !== undefined) {
       if (!prevState.userTyping && this.state.userTyping) {
-        console.log("user now typing");
         this.updateTypingStatus(userIndex, true, docKey);
       } else if (prevState.userTyping && !this.state.userTyping) {
-        console.log("user stopped typing");
         this.updateTypingStatus(userIndex, false, docKey);
       }
     }
-
-    // if (!prevState.showEmojiPicker && this.state.showEmojiPicker) {
-    //   var specifiedElement = document.querySelector(".emoji-mart");
-    //   console.log(specifiedElement);
-    //   document.addEventListener("click", function (event) {
-    //     console.log(specifiedElement);
-    //     var isClickInside = specifiedElement.contains(event.target);
-    //     if (isClickInside) {
-    //       console.log("You clicked inside");
-    //     } else {
-    //       console.log("You clicked outside");
-    //     }
-    //   });
-    // }
-    // if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
-    //   document.removeEventListener(
-    //     "click",
-    //     function (event) {
-    //       event.stopPropagation();
-    //     },
-    //     true
-    //   );
-    // }
   };
   updateTypingStatus = (index, status, docKey) => {
     if (index === 0) {
-      console.log("user1Typing");
       firebase
         .firestore()
         .collection("chats")
         .doc(docKey)
         .update({ user1Typing: status });
     } else if (index === 1) {
-      console.log("user2Typing");
       firebase
         .firestore()
         .collection("chats")
@@ -297,14 +203,6 @@ class ChatInput extends React.Component {
   };
   buildDocKey = () =>
     [this.props.email, this.props.friendEmail].sort().join(":");
-  // handleUserInput = async (e) => {
-  //   if (!this.state.userTyping) {
-  //     await this.setState({ userTyping: true });
-  //   }
-  //   e.keyCode === 13
-  //     ? this.sendMessage()
-  //     : this.setState({ inputText: e.target.value });
-  // };
   handleUserInput = async (e) => {
     if (!this.state.userTyping) {
       await this.setState({ userTyping: true });

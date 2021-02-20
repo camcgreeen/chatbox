@@ -160,7 +160,26 @@ class ChatMain extends React.Component {
                               word
                             );
                           })} */}
-                          {message.message}
+                          {message.message ===
+                          "Feel free to contact me right here, or on my email address mailto:hello@camgreen.works, and I will get back to you as soon as I can! 😀" ? (
+                            <p>
+                              {
+                                "Feel free to contact me right here, or on my email address "
+                              }
+                              <a
+                                href="mailto:hello@camgreen.works"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                hello@camgreen.works
+                              </a>
+                              {
+                                " and I will get back to you as soon as possible! 😀"
+                              }
+                            </p>
+                          ) : (
+                            message.message
+                          )}
                         </div>
                         {/* <div className=""></div> */}
                       </>
