@@ -12,6 +12,8 @@ class Home extends React.Component {
       loaded: false,
       fade: false,
       animationCompleted: false,
+      email: null,
+      password: null,
     };
   }
   render() {
@@ -34,7 +36,10 @@ class Home extends React.Component {
                 <h2 className="home__left__h2">
                   Chatbox makes it easy to stay connected to people you love.
                 </h2>
-                <button className="home__left__demo btn btn--hero">
+                <button
+                  className="home__left__demo btn btn--hero"
+                  onClick={this.createAndLoginDemoUser}
+                >
                   Try a demo
                   <svg
                     width="24"
@@ -51,7 +56,14 @@ class Home extends React.Component {
                 </button>
               </div>
               <div className="home__right">
-                <div className="home__right__preview"></div>
+                <div className="home__right__preview">
+                  {/* <video muted loop playsInline>
+                    <source
+                      src="https://streamable.com/xbjymg"
+                      type="video/mp4"
+                    />
+                  </video> */}
+                </div>
                 {/* <div className="home__right__circle"></div> */}
               </div>
             </div>
@@ -82,6 +94,232 @@ class Home extends React.Component {
       this.setState({ loaded: true });
     }
     setTimeout(() => this.setState({ animationCompleted: true }), 1000);
+  };
+  createAndLoginDemoUser = async () => {
+    const demoUser = this.generateRandomString(10);
+    const demoEmail = `${demoUser}@gmail.com`;
+    const demoPassword = "thisisademo";
+    await this.setState({ email: demoEmail, password: demoPassword });
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(
+        this.state.email.toLowerCase(),
+        this.state.password
+      )
+      .then(
+        (authRes) => {
+          console.log("authRes = ", authRes);
+          const userObj = {
+            email: authRes.user.email,
+            nameFirst: "Demo",
+            nameLast: "User",
+            lastLoggedOut: null,
+            online: false,
+            profilePictureUrl: "https://i.imgur.com/ZtGfcXy.png",
+          };
+          // this is the bit where we add the user to our database
+          // this is separate to firebase authentication bit
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(this.state.email)
+            .set(userObj)
+            .then(
+              () => {
+                const camEmail = "c.c.green@outlook.com";
+                const chatCamUsers = [camEmail, this.state.email].sort();
+                const chatCamDocKey = chatCamUsers.join(":");
+                console.log(`chatCamDocKey = ${chatCamDocKey}`);
+                const chatCamObj = {
+                  messages: [
+                    {
+                      gifRef: null,
+                      message: "Hey there! 👋",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 7,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "Welcome to Chatbox, a real-time chat application built with React and Firebase",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 6,
+                    },
+                    {
+                      gifRef:
+                        "https://media3.giphy.com/media/SRlLBrVq3YL5TzIuuG/giphy.gif?cid=054422c3641b6rgvp84jzpz3ff4ojg5f119wi4djqu501one&rid=giphy.gif",
+                      message: null,
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 5,
+                    },
+                    {
+                      gifRef: null,
+                      message: "I'm Cam Green, the creator of this app",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 4,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "I have included some dummy chats to show you the functionality of the app as it turns out it’s quite hard to demo a chat application without lots of users!",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 3,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "Click on one these chats in the chat list to the side or send a nice message to a friend using their email address with the + button (the friend must also have signed up on Chatbox)",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 2,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "You can find the link to the GitHub repo here: https://github.com/camcgreen/chatbox",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 1,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "Feel free to contact me right here, or on my email address mailto:hello@camgreen.works, and I will get back to you as soon as possible! 😀",
+
+                      sender: camEmail,
+                      timestamp: Date.now(),
+                    },
+                  ],
+                  receiverHasRead: false,
+                  user1Typing: false,
+                  user2Typing: false,
+                  users: chatCamUsers,
+                };
+                console.log("setting up chat with Cam", chatCamObj);
+                firebase
+                  .firestore()
+                  .collection("chats")
+                  .doc(chatCamDocKey)
+                  .set({ ...chatCamObj })
+                  .then(() => {
+                    const janeEmail = "jane.doe@gmail.com";
+                    const chatJaneUsers = [janeEmail, this.state.email].sort();
+                    const chatJaneDocKey = chatJaneUsers.join(":");
+                    const chatJaneObj = {
+                      messages: [
+                        {
+                          gifRef: null,
+                          message:
+                            "I'm here to tell you that you can send emojis with the emoji button, like this:",
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 23,
+                        },
+                        {
+                          gifRef: null,
+                          message: "😁😁😁",
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 22,
+                        },
+                        {
+                          gifRef: null,
+                          message:
+                            "You can send GIFs with the GIF icon button, using the Giphy API",
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 21,
+                        },
+                        {
+                          gifRef:
+                            "https://media0.giphy.com/media/8Iv5lqKwKsZ2g/giphy.gif?cid=054422c3esjdb7maxup41cz0uudxss9dcpn41a9h97r4b5vu&rid=giphy.gif",
+                          message: null,
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 20,
+                        },
+                      ],
+                      receiverHasRead: false,
+                      user1Typing: false,
+                      user2Typing: false,
+                      users: chatJaneUsers,
+                    };
+                    firebase
+                      .firestore()
+                      .collection("chats")
+                      .doc(chatJaneDocKey)
+                      .set({ ...chatJaneObj })
+                      .then(() => {
+                        const johnEmail = "john.bellamy@gmail.com";
+                        const chatJohnUsers = [
+                          johnEmail,
+                          this.state.email,
+                        ].sort();
+                        const chatJohnDocKey = chatJohnUsers.join(":");
+                        const chatJohnObj = {
+                          messages: [
+                            {
+                              gifRef: null,
+                              message:
+                                "To show you the *other user is typing* feature, my isTyping flag has been set to true for the rest of eternity",
+
+                              sender: johnEmail,
+                              timestamp: Date.now() - 60000 * 27,
+                            },
+                            {
+                              gifRef: null,
+                              message: "Tiring!",
+
+                              sender: johnEmail,
+                              timestamp: Date.now() - 60000 * 26,
+                            },
+                            {
+                              gifRef: null,
+                              message: "Below is the typing indicator 👇",
+
+                              sender: johnEmail,
+                              timestamp: Date.now() - 60000 * 25,
+                            },
+                          ],
+                          receiverHasRead: false,
+                          user1Typing: true,
+                          user2Typing: true,
+                          users: chatJohnUsers,
+                        };
+                        firebase
+                          .firestore()
+                          .collection("chats")
+                          .doc(chatJohnDocKey)
+                          .set({ ...chatJohnObj })
+                          .then(() => {
+                            this.props.history.push("/dashboard");
+                          });
+                      });
+                  });
+              },
+              (dbError) => {
+                console.log(dbError);
+                this.setState({ signupError: "Failed to add user" });
+              }
+            );
+        },
+        (authError) => {
+          console.log(authError);
+          this.setState({ signupError: authError.message });
+        }
+      );
+  };
+  generateRandomString = (length) => {
+    const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    for (let i = length; i > 0; --i)
+      result += chars[Math.round(Math.random() * (chars.length - 1))];
+    return result;
   };
 }
 

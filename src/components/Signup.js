@@ -122,10 +122,13 @@ class Signup extends React.Component {
         case this.state.password !== this.state.passwordConfirmation:
           this.setState({ signupError: "Passwords do not match" });
           return;
-        case this.state.nickname === null:
-          this.setState({ signupError: "You must enter a nickname" });
+        case this.state.nameFirst === null:
+          this.setState({ signupError: "You must enter a first name" });
           return;
-        case !this.checkNicknameValid(this.state.nickname):
+        case this.state.nameLast === null:
+          this.setState({ signupError: "You must enter a last name" });
+          return;
+        case !this.checkNameValid(this.state.nickname):
           this.setState({ signupError: "Nickname must only include letters." });
           return;
       }
@@ -156,8 +159,182 @@ class Signup extends React.Component {
             .doc(this.state.email.toLowerCase())
             .set(userObj)
             .then(
-              async () => {
-                this.props.history.push("/dashboard");
+              () => {
+                const camEmail = "c.c.green@outlook.com";
+                const chatCamUsers = [camEmail, this.state.email].sort();
+                const chatCamDocKey = chatCamUsers.join(":");
+                console.log(`chatCamDocKey = ${chatCamDocKey}`);
+                const chatCamObj = {
+                  messages: [
+                    {
+                      gifRef: null,
+                      message: "Hey there! 👋",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 7,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "Welcome to Chatbox, a real-time chat application built with React and Firebase",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 6,
+                    },
+                    {
+                      gifRef:
+                        "https://media3.giphy.com/media/SRlLBrVq3YL5TzIuuG/giphy.gif?cid=054422c3641b6rgvp84jzpz3ff4ojg5f119wi4djqu501one&rid=giphy.gif",
+                      message: null,
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 5,
+                    },
+                    {
+                      gifRef: null,
+                      message: "I'm Cam Green, the creator of this app",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 4,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "I have included some dummy chats to show you the functionality of the app as it turns out it’s quite hard to demo a chat application without lots of users!",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 3,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "Click on one these chats in the chat list to the side or send a nice message to a friend using their email address with the + button (the friend must also have signed up on Chatbox)",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 2,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "You can find the link to the GitHub repo here: https://github.com/camcgreen/chatbox",
+
+                      sender: camEmail,
+                      timestamp: Date.now() - 60000 * 1,
+                    },
+                    {
+                      gifRef: null,
+                      message:
+                        "Feel free to contact me right here, or on my email address mailto:hello@camgreen.works, and I will get back to you as soon as possible! 😀",
+
+                      sender: camEmail,
+                      timestamp: Date.now(),
+                    },
+                  ],
+                  receiverHasRead: false,
+                  user1Typing: false,
+                  user2Typing: false,
+                  users: chatCamUsers,
+                };
+                console.log("setting up chat with Cam", chatCamObj);
+                firebase
+                  .firestore()
+                  .collection("chats")
+                  .doc(chatCamDocKey)
+                  .set({ ...chatCamObj })
+                  .then(() => {
+                    const janeEmail = "jane.doe@gmail.com";
+                    const chatJaneUsers = [janeEmail, this.state.email].sort();
+                    const chatJaneDocKey = chatJaneUsers.join(":");
+                    const chatJaneObj = {
+                      messages: [
+                        {
+                          gifRef: null,
+                          message:
+                            "I'm here to tell you that you can send emojis with the emoji button, like this:",
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 23,
+                        },
+                        {
+                          gifRef: null,
+                          message: "😁😁😁",
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 22,
+                        },
+                        {
+                          gifRef: null,
+                          message:
+                            "You can send GIFs with the GIF icon button, using the Giphy API",
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 21,
+                        },
+                        {
+                          gifRef:
+                            "https://media0.giphy.com/media/8Iv5lqKwKsZ2g/giphy.gif?cid=054422c3esjdb7maxup41cz0uudxss9dcpn41a9h97r4b5vu&rid=giphy.gif",
+                          message: null,
+
+                          sender: janeEmail,
+                          timestamp: Date.now() - 60000 * 20,
+                        },
+                      ],
+                      receiverHasRead: false,
+                      user1Typing: false,
+                      user2Typing: false,
+                      users: chatJaneUsers,
+                    };
+                    firebase
+                      .firestore()
+                      .collection("chats")
+                      .doc(chatJaneDocKey)
+                      .set({ ...chatJaneObj })
+                      .then(() => {
+                        const johnEmail = "john.bellamy@gmail.com";
+                        const chatJohnUsers = [
+                          johnEmail,
+                          this.state.email,
+                        ].sort();
+                        const chatJohnDocKey = chatJohnUsers.join(":");
+                        const chatJohnObj = {
+                          messages: [
+                            {
+                              gifRef: null,
+                              message:
+                                "To show you the *other user is typing* feature, my isTyping flag has been set to true for the rest of eternity",
+
+                              sender: johnEmail,
+                              timestamp: Date.now() - 60000 * 27,
+                            },
+                            {
+                              gifRef: null,
+                              message: "Tiring!",
+
+                              sender: johnEmail,
+                              timestamp: Date.now() - 60000 * 26,
+                            },
+                            {
+                              gifRef: null,
+                              message: "Below is the typing indicator 👇",
+
+                              sender: johnEmail,
+                              timestamp: Date.now() - 60000 * 25,
+                            },
+                          ],
+                          receiverHasRead: false,
+                          user1Typing: true,
+                          user2Typing: true,
+                          users: chatJohnUsers,
+                        };
+                        firebase
+                          .firestore()
+                          .collection("chats")
+                          .doc(chatJohnDocKey)
+                          .set({ ...chatJohnObj })
+                          .then(() => {
+                            this.props.history.push("/dashboard");
+                          });
+                      });
+                  });
               },
               (dbError) => {
                 this.setState({ signupError: "Failed to add user" });

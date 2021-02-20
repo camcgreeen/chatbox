@@ -33,6 +33,7 @@ class ChatMain extends React.Component {
               navigateToChat={this.props.navigateToChat}
               createNewChat={this.props.createNewChat}
               email={this.props.email}
+              toggleNav={this.props.toggleNav}
             />
           ) : (
             <>
@@ -152,6 +153,13 @@ class ChatMain extends React.Component {
                               : "message message--friend"
                           }
                         >
+                          {/* {message.message.split(" ").map((word) => {
+                            return this.checkIfUrl(word) ? (
+                              <a href={word}>word</a>
+                            ) : (
+                              word
+                            );
+                          })} */}
                           {message.message}
                         </div>
                         {/* <div className=""></div> */}
@@ -248,6 +256,11 @@ class ChatMain extends React.Component {
   };
   buildDocKey = () =>
     [this.props.email, this.props.friendEmail].sort().join(":");
+  checkIfUrl = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return urlRegex.test(text);
+  };
+
   componentDidMount = () => {
     setTimeout(() => this.setState({ chatOpacity: 1 }), 2500);
     setTimeout(this.findUsersTyping, 2000);
@@ -305,7 +318,7 @@ class ChatMain extends React.Component {
               behaviour: "smooth",
             });
           }
-        }, 300);
+        }, 400);
       }
       if (prevProps.chat.messages.length < this.props.chat.messages.length) {
         const chatContainer = document.getElementById("chat-container");
@@ -317,7 +330,7 @@ class ChatMain extends React.Component {
               behaviour: "smooth",
             });
           }
-        }, 100);
+        }, 200);
       }
       if (prevProps.friendLastLoggedOut !== this.props.friendLastLoggedOut) {
         this.updateHeaderTimestamp(this.props.friendLastLoggedOut);

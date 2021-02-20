@@ -183,6 +183,7 @@ class Dashboard extends React.Component {
             // );
             // await this.setState({ friendOnlineStatuses });
             this.selectChat(index);
+            console.log("about to fade loader");
             setTimeout(() => this.setState({ fadeLoader: true }), 400);
             // setTimeout(() => this.setState({ loaded: true }), 1000);
           }
@@ -270,15 +271,17 @@ class Dashboard extends React.Component {
     }
   };
   findFriendName = async (friendEmail) => {
-    const doc = await firebase
-      .firestore()
-      .collection("users")
-      .doc(friendEmail)
-      .get();
-    const nameFirst = doc.data().nameFirst;
-    const nameLast = doc.data().nameLast;
-    return `${nameFirst} ${nameLast}`;
-    // console.log(`${nameFirst} ${nameLast}`);
+    if (friendEmail) {
+      const doc = await firebase
+        .firestore()
+        .collection("users")
+        .doc(friendEmail)
+        .get();
+      const nameFirst = doc.data().nameFirst;
+      const nameLast = doc.data().nameLast;
+      return `${nameFirst} ${nameLast}`;
+      // console.log(`${nameFirst} ${nameLast}`);
+    }
   };
   selectedChatWhereUserNotSender = (chatIndex) => {
     const selectedChatMessages = this.state.chats[chatIndex].messages;

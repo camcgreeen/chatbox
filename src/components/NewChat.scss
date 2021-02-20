@@ -34,6 +34,18 @@
       margin-top: 40px;
     }
   }
+  &__back {
+    // cursor: pointer;
+    display: none;
+    margin: 0;
+    cursor: pointer;
+    transition: fill 0.2s ease-in-out;
+    &:hover {
+      circle {
+        fill: darken($color-bg, 5%);
+      }
+    }
+  }
 }
 
 .error-text-new-chat {
@@ -62,6 +74,12 @@
       input {
         // padding-left: 10px;
       }
+    }
+    &__back {
+      display: inline-block;
+      // width: 150px;
+      // margin-left: 24px;
+      margin-top: 24px;
     }
   }
 }

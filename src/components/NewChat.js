@@ -16,6 +16,33 @@ class NewChat extends React.Component {
   render() {
     return (
       <div className="new-chat">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="new-chat__back"
+          onClick={this.props.toggleNav}
+        >
+          <circle cx="10" cy="10" r="10" fill="#F0F0F5" />
+          <g clip-path="url(#clip0)">
+            <path
+              d="M7.35627 9.50495L11.6561 5.20524C11.9296 4.93159 12.3731 4.93159 12.6465 5.20524C12.9199 5.47865 12.9199 5.9221 12.6465 6.19549L8.8418 10.0001L12.6464 13.8045C12.9198 14.078 12.9198 14.5214 12.6464 14.7949C12.373 15.0684 11.9295 15.0684 11.656 14.7949L7.35616 10.4951C7.21946 10.3583 7.15118 10.1792 7.15118 10.0001C7.15118 9.82085 7.21959 9.64165 7.35627 9.50495Z"
+              fill="#221E41"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0">
+              <rect
+                width="10"
+                height="10"
+                fill="white"
+                transform="translate(15 15) rotate(-180)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
         <h1 className="new-chat__h1">Start a new chat</h1>
         <form className="new-chat__form" onSubmit={this.handleFormSubmit}>
           <input
