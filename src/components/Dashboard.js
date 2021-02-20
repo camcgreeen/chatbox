@@ -2,9 +2,8 @@ import React from "react";
 import ChatNavigation from "./ChatNavigation";
 import ChatMain from "./ChatMain";
 import Sidebar from "./Sidebar";
-import "../main.scss";
-import "./Dashboard.scss";
 import { disableRightMiddleClick } from "../utilities/helpers";
+import "./Dashboard.scss";
 import "../main.scss";
 const firebase = require("firebase");
 
@@ -44,15 +43,7 @@ class Dashboard extends React.Component {
             alt=""
           />
         </div>
-        {/* <button
-          onClick={this.logOut}
-          // style={{ position: "absolute", top: 200, left: 200 }}
-        >
-          Log out
-        </button> */}
-
         <ChatNavigation
-          // zIndexValue={this.state.navOpen ? 20 : 0}
           leftValue={this.state.navOpen ? 0 : "-150vw"}
           toggleNav={this.toggleNav}
           newChat={this.newChat}
@@ -89,7 +80,6 @@ class Dashboard extends React.Component {
         />
       </>
     );
-    // return <h1>Dashboard</h1>;
   }
   componentDidMount = async () => {
     disableRightMiddleClick();
@@ -105,7 +95,6 @@ class Dashboard extends React.Component {
           .collection("chats")
           .where("users", "array-contains", _usr.email)
           .onSnapshot(async (result) => {
-            console.log("UPDATING CHATS");
             const chats = result.docs.map((doc) => doc.data());
             await this.setState({ chats });
           });
@@ -113,11 +102,8 @@ class Dashboard extends React.Component {
           .firestore()
           .collection("users")
           .onSnapshot(async (result) => {
-            console.log("USERS CHANGED");
             setTimeout(async () => {
               if (this.state.chats.length > 0) {
-                // console.log(this.state.chats);
-                // console.log("usersInChats", usersInChats);
                 const chatsToOrder = [...this.state.chats];
                 const orderedChats = chatsToOrder.sort(
                   (a, b) =>
@@ -132,7 +118,6 @@ class Dashboard extends React.Component {
                     return chat.users.filter(
                       (user) => user !== this.state.email
                     );
-                    // return chat;
                   })
                   .flat();
                 const friendOnlineStatusesPromises = usersInChats.map(
@@ -151,11 +136,8 @@ class Dashboard extends React.Component {
               }
             }, 400);
           });
-        console.log(this.state);
         setTimeout(async () => {
           if (this.state.chats.length > 0) {
-            // console.log(this.state.chats);
-            // console.log("usersInChats", usersInChats);
             const chatsToOrder = [...this.state.chats];
             const orderedChats = chatsToOrder.sort(
               (a, b) =>
@@ -165,28 +147,8 @@ class Dashboard extends React.Component {
             const index = this.state.chats.findIndex(
               (element) => element === orderedChats[0]
             );
-            // const usersInChats = orderedChats
-            //   .map((chat) => {
-            //     return chat.users.filter((user) => user !== this.state.email);
-            //     // return chat;
-            //   })
-            //   .flat();
-            // const friendOnlineStatusesPromises = usersInChats.map(
-            //   async (friend) => {
-            //     const friendOnlineStatus = await this.findFriendOnlineStatus(
-            //       friend
-            //     );
-            //     return friendOnlineStatus;
-            //   }
-            // );
-            // const friendOnlineStatuses = await Promise.all(
-            //   friendOnlineStatusesPromises
-            // );
-            // await this.setState({ friendOnlineStatuses });
             this.selectChat(index);
-            console.log("about to fade loader");
             setTimeout(() => this.setState({ fadeLoader: true }), 400);
-            // setTimeout(() => this.setState({ loaded: true }), 1000);
           }
         }, 400);
       }
@@ -244,7 +206,6 @@ class Dashboard extends React.Component {
     this.selectChat(this.state.chats.length - 1);
   };
   selectChat = async (chatIndex) => {
-    console.log("index", chatIndex);
     await this.setState({
       selectedChat: chatIndex,
     });
@@ -281,7 +242,6 @@ class Dashboard extends React.Component {
       const nameFirst = doc.data().nameFirst;
       const nameLast = doc.data().nameLast;
       return `${nameFirst} ${nameLast}`;
-      // console.log(`${nameFirst} ${nameLast}`);
     }
   };
   selectedChatWhereUserNotSender = (chatIndex) => {
@@ -302,8 +262,6 @@ class Dashboard extends React.Component {
         .collection("chats")
         .doc(docKey)
         .update({ receiverHasRead: true });
-    } else {
-      console.log("selected message where the user was the sender");
     }
   };
   newChat = () => {
@@ -354,7 +312,6 @@ class Dashboard extends React.Component {
       .collection("chats")
       .doc(docKey)
       .update({
-        // add the message to the message array in the db
         messages: firebase.firestore.FieldValue.arrayUnion({
           sender: this.state.email,
           message: null,
@@ -364,7 +321,6 @@ class Dashboard extends React.Component {
         }),
         receiverHasRead: false,
       });
-    // this.selectChat(0);
   };
 }
 
