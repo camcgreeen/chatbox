@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-// import { disableRightMiddleClick } from "../utilities/helper";
 import "../main.scss";
 import "./Navbar.scss";
+
 const firebase = require("firebase");
 
 class Navbar extends React.Component {
@@ -14,7 +14,6 @@ class Navbar extends React.Component {
   }
   render() {
     return (
-      // <div className="navbar">
       <nav className="nav">
         <NavLink exact to="/">
           <svg
@@ -79,7 +78,6 @@ class Navbar extends React.Component {
           </svg>
         </NavLink>
         <ul
-          // className="nav__items"
           className={this.state.menuOpen ? "nav__items visible" : "nav__items"}
         >
           <NavLink exact to="/" style={{ textDecoration: "none" }}>
@@ -91,9 +89,6 @@ class Navbar extends React.Component {
           <NavLink to="/signup" style={{ textDecoration: "none" }}>
             <li className="nav__items__item">SIGN UP</li>
           </NavLink>
-          {/* <li>
-            <button className="btn btn--talk-to-me">Talk to me</button>
-          </li> */}
         </ul>
         <button
           className={
@@ -106,12 +101,9 @@ class Navbar extends React.Component {
           {this.state.menuOpen ? "Close" : "Menu"}
         </button>
       </nav>
-      // </div>
     );
   }
   toggleMenu = () => {
-    // let open = false;
-    // open = !this.state.menuOpen;
     this.setState({ menuOpen: !this.state.menuOpen });
   };
 }

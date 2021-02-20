@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { disableRightMiddleClick } from "../utilities/helpers";
 import "../main.scss";
 import "./FormAuthentication.scss";
+
 const firebase = require("firebase");
 
 class Login extends React.Component {
@@ -45,11 +46,7 @@ class Login extends React.Component {
           </form>
           <h5 className="account">
             Don't have an account?{" "}
-            <Link
-              to="/signup"
-              className="account__link"
-              // style={{ textDecoration: "none", color: "#6937FF" }}
-            >
+            <Link to="/signup" className="account__link">
               Sign up
             </Link>
           </h5>
