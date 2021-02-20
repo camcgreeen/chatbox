@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 import { disableRightMiddleClick } from "../utilities/helpers";
 import "../main.scss";
+
 const firebase = require("firebase");
 
 class Signup extends React.Component {
@@ -12,7 +13,6 @@ class Signup extends React.Component {
       email: null,
       password: null,
       passwordConfirmation: null,
-      // nickname: null,
       nameFirst: null,
       nameLast: null,
       signupError: "",
@@ -63,11 +63,7 @@ class Signup extends React.Component {
           </form>
           <h5 className="account">
             Already have an account?{" "}
-            <Link
-              to="/login"
-              className="account__link"
-              // style={{ textDecoration: "none", color: "#6937FF" }}
-            >
+            <Link to="/login" className="account__link">
               Login
             </Link>
           </h5>
@@ -147,9 +143,6 @@ class Signup extends React.Component {
         (authRes) => {
           const userObj = {
             email: authRes.user.email,
-            // firstName: this.state.firstName,
-            // lastName: this.state.lastName,
-            // nickname: this.state.nickname,
             nameFirst: this.state.nameFirst,
             nameLast: this.state.nameLast,
             lastLoggedOut: null,
@@ -166,7 +159,6 @@ class Signup extends React.Component {
                 const camEmail = "c.c.green@outlook.com";
                 const chatCamUsers = [camEmail, this.state.email].sort();
                 const chatCamDocKey = chatCamUsers.join(":");
-                console.log(`chatCamDocKey = ${chatCamDocKey}`);
                 const chatCamObj = {
                   messages: [
                     {
@@ -229,7 +221,6 @@ class Signup extends React.Component {
                   user2Typing: false,
                   users: chatCamUsers,
                 };
-                console.log("setting up chat with Cam", chatCamObj);
                 firebase
                   .firestore()
                   .collection("chats")
