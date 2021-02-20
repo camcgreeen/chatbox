@@ -4,7 +4,7 @@ Chat with friends, whenever and wherever.
 
 [chatbox.web.app](https://chatbox.web.app/)
 
-![Chatbox - Dashboard](https://i.imgur.com/M4wQON4.png)
+![Chatbox - Dashboard](https://i.imgur.com/FibYGuk.png)
 
 Chatbox is a real-time chat application with user authentication.
 
