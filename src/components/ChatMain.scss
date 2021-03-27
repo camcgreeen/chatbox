@@ -1,4 +1,4 @@
-@import "../utilities/variables.scss";
+@import '../utilities/variables.scss';
 
 .toggle-nav {
   display: none;
@@ -96,6 +96,9 @@
     float: left;
     border-radius: $border-radius $border-radius $border-radius 0;
     background-color: $color-bubble;
+  }
+  &--gif {
+    max-width: 65vw;
   }
 }
 

@@ -1,4 +1,4 @@
-@import "../utilities/variables.scss";
+@import '../utilities/variables.scss';
 
 .sidebar {
   overflow-y: auto;
@@ -8,7 +8,8 @@
   justify-content: space-between;
   padding: 60px 0px;
   max-height: calc(100vh - 120px);
-  min-width: calc(360px);
+  width: 300px;
+  min-width: 200px;
   background: linear-gradient(
     180deg,
     #f3f3f9 0%,
@@ -72,13 +73,13 @@
   }
 }
 
-@media only screen and (max-width: 1200px) {
-  .sidebar {
-    min-width: 250px;
-  }
-}
+// @media only screen and (max-width: 1200px) {
+//   .sidebar {
+//     // min-width: 250px;
+//   }
+// }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1200px) {
   .sidebar {
     display: none;
   }

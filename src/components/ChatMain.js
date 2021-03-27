@@ -170,8 +170,8 @@ class ChatMain extends React.Component {
                         alt=''
                         className={
                           message.sender === email
-                            ? 'message message--user'
-                            : 'message message--friend'
+                            ? 'message message--user message--gif'
+                            : 'message message--friend message--gif'
                         }
                       />
                     )}
@@ -248,7 +248,18 @@ class ChatMain extends React.Component {
     return urlRegex.test(text);
   };
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    await this.setState({ windowHeight: window.innerHeight });
+
+    let resizeTimer;
+
+    window.onresize = (e) => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        this.setState({ windowHeight: window.innerHeight });
+      }, 100);
+    };
+
     setTimeout(() => this.setState({ chatOpacity: 1 }), 2500);
     setTimeout(this.findUsersTyping, 2000);
     this.updateHeaderTimestamp(this.props.friendLastLoggedOut);

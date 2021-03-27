@@ -1,17 +1,17 @@
-import React from "react";
-import ChatNavigation from "./ChatNavigation";
-import ChatMain from "./ChatMain";
-import Sidebar from "./Sidebar";
-import { disableRightMiddleClick } from "../utilities/helpers";
-import "./Dashboard.scss";
-import "../main.scss";
-const firebase = require("firebase");
+import React from 'react';
+import ChatNavigation from './ChatNavigation';
+import ChatMain from './ChatMain';
+import Sidebar from './Sidebar';
+import { disableRightMiddleClick } from '../utilities/helpers';
+import './Dashboard.scss';
+import '../main.scss';
+const firebase = require('firebase');
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fadeLoader: false,
+      // fadeLoader: false,
       navOpen: true,
       selectedChat: null,
       newChatFormVisible: false,
@@ -24,27 +24,28 @@ class Dashboard extends React.Component {
       online: false,
       friendOnline: false,
       lastLoggedOut: null,
-      friendLastLoggedOut: "",
+      friendLastLoggedOut: '',
+      initialLoadComplete: false,
     };
   }
   render() {
     return (
       <>
         <div
-          className="loader-container"
+          className='loader-container'
           style={{
-            transition: "opacity 0.6s ease-in-out",
+            transition: 'opacity 0.6s ease-in-out',
             opacity: this.state.fadeLoader ? 0 : 1,
           }}
         >
           <img
-            className="loader-container__loader"
-            src="https://svgshare.com/i/TU9.svg"
-            alt=""
+            className='loader-container__loader'
+            src='https://svgshare.com/i/TU9.svg'
+            alt=''
           />
         </div>
         <ChatNavigation
-          leftValue={this.state.navOpen ? 0 : "-150vw"}
+          leftValue={this.state.navOpen ? 0 : '-150vw'}
           toggleNav={this.toggleNav}
           newChat={this.newChat}
           selectChat={this.selectChat}
@@ -83,81 +84,51 @@ class Dashboard extends React.Component {
   }
   componentDidMount = async () => {
     disableRightMiddleClick();
-    document.title = "Chatbox";
+    document.title = 'Chatbox';
     firebase.auth().onAuthStateChanged(async (_usr) => {
       if (!_usr) {
-        this.props.history.push("/login");
+        this.props.history.push('/login');
       } else {
         await this.setState({ email: _usr.email, online: true });
         await this.updateOnlineStatus();
         await firebase
           .firestore()
-          .collection("chats")
-          .where("users", "array-contains", _usr.email)
+          .collection('chats')
+          .where('users', 'array-contains', _usr.email)
           .onSnapshot(async (result) => {
             const chats = result.docs.map((doc) => doc.data());
             await this.setState({ chats });
           });
-        await firebase
-          .firestore()
-          .collection("users")
-          .onSnapshot(async (result) => {
-            setTimeout(async () => {
-              if (this.state.chats.length > 0) {
-                const chatsToOrder = [...this.state.chats];
-                const orderedChats = chatsToOrder.sort(
-                  (a, b) =>
-                    b.messages[b.messages.length - 1].timestamp -
-                    a.messages[a.messages.length - 1].timestamp
-                );
-                const index = this.state.chats.findIndex(
-                  (element) => element === orderedChats[0]
-                );
-                const usersInChats = orderedChats
-                  .map((chat) => {
-                    return chat.users.filter(
-                      (user) => user !== this.state.email
-                    );
-                  })
-                  .flat();
-                const friendOnlineStatusesPromises = usersInChats.map(
-                  async (friend) => {
-                    const friendOnlineStatus = await this.findFriendOnlineStatus(
-                      friend
-                    );
-                    return friendOnlineStatus;
-                  }
-                );
-                const friendOnlineStatuses = await Promise.all(
-                  friendOnlineStatusesPromises
-                );
-                await this.setState({ friendOnlineStatuses });
-                this.selectChat(index);
-              }
-            }, 400);
-          });
-        setTimeout(async () => {
-          if (this.state.chats.length > 0) {
-            const chatsToOrder = [...this.state.chats];
-            const orderedChats = chatsToOrder.sort(
-              (a, b) =>
-                b.messages[b.messages.length - 1].timestamp -
-                a.messages[a.messages.length - 1].timestamp
-            );
-            const index = this.state.chats.findIndex(
-              (element) => element === orderedChats[0]
-            );
-            this.selectChat(index);
-            setTimeout(() => this.setState({ fadeLoader: true }), 400);
-          }
-        }, 400);
       }
     });
+  };
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (prevState !== this.state) {
+      if (!this.state.initialLoadComplete) {
+        if (this.state.chats.length > 0) {
+          await this.setState({ initialLoadComplete: true });
+          const chatsToOrder = [...this.state.chats];
+          const orderedChats = chatsToOrder.sort(
+            (a, b) =>
+              b.messages[b.messages.length - 1].timestamp -
+              a.messages[a.messages.length - 1].timestamp
+          );
+          const index = this.state.chats.findIndex(
+            (element) => element === orderedChats[0]
+          );
+          this.selectChat(index);
+        }
+      }
+    }
+
+    if (prevState.friendProfilePicture !== this.state.friendProfilePicture) {
+      this.setState({ fadeLoader: true });
+    }
   };
   findFriendOnlineStatus = async (friendEmail) => {
     const doc = await firebase
       .firestore()
-      .collection("users")
+      .collection('users')
       .doc(friendEmail)
       .get();
     const onlineStatus = doc.data().online;
@@ -166,7 +137,7 @@ class Dashboard extends React.Component {
   updateOnlineStatus = () => {
     firebase
       .firestore()
-      .collection("users")
+      .collection('users')
       .doc(this.state.email)
       .update({ online: this.state.online });
   };
@@ -174,7 +145,7 @@ class Dashboard extends React.Component {
     this.setState({ navOpen: !this.state.navOpen });
   };
   navigateToChat = async (docKey, message) => {
-    const usersInChat = docKey.split(":");
+    const usersInChat = docKey.split(':');
     const chat = this.state.chats.find((chat) =>
       usersInChat.every((user) => chat.users.includes(user))
     );
@@ -186,7 +157,7 @@ class Dashboard extends React.Component {
     const docKey = this.buildDocKey(chat.sendTo);
     await firebase
       .firestore()
-      .collection("chats")
+      .collection('chats')
       .doc(docKey)
       .set({
         users: [this.state.email, chat.sendTo].sort(),
@@ -221,7 +192,7 @@ class Dashboard extends React.Component {
       await this.setState({ friendEmail, friendName, friendsSince });
       firebase
         .firestore()
-        .collection("users")
+        .collection('users')
         .doc(this.state.friendEmail)
         .onSnapshot(async (doc) => {
           await this.setState({
@@ -236,7 +207,7 @@ class Dashboard extends React.Component {
     if (friendEmail) {
       const doc = await firebase
         .firestore()
-        .collection("users")
+        .collection('users')
         .doc(friendEmail)
         .get();
       const nameFirst = doc.data().nameFirst;
@@ -259,7 +230,7 @@ class Dashboard extends React.Component {
     if (this.selectedChatWhereUserNotSender(this.state.selectedChat)) {
       firebase
         .firestore()
-        .collection("chats")
+        .collection('chats')
         .doc(docKey)
         .update({ receiverHasRead: true });
     }
@@ -275,12 +246,12 @@ class Dashboard extends React.Component {
     await this.updateOnlineStatus();
     await firebase
       .firestore()
-      .collection("users")
+      .collection('users')
       .doc(this.state.email)
       .update({ lastLoggedOut: this.state.lastLoggedOut });
     firebase.auth().signOut();
   };
-  buildDocKey = (friend) => [this.state.email, friend].sort().join(":");
+  buildDocKey = (friend) => [this.state.email, friend].sort().join(':');
   sendMessage = (message) => {
     const docKey = this.buildDocKey(
       this.state.chats[this.state.selectedChat].users.filter(
@@ -289,7 +260,7 @@ class Dashboard extends React.Component {
     );
     firebase
       .firestore()
-      .collection("chats")
+      .collection('chats')
       .doc(docKey)
       .update({
         messages: firebase.firestore.FieldValue.arrayUnion({
@@ -309,7 +280,7 @@ class Dashboard extends React.Component {
     );
     firebase
       .firestore()
-      .collection("chats")
+      .collection('chats')
       .doc(docKey)
       .update({
         messages: firebase.firestore.FieldValue.arrayUnion({

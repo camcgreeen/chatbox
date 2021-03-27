@@ -1,7 +1,7 @@
-import React from "react";
-import "../main.scss";
-import "./ChatNavigation.scss";
-const firebase = require("firebase");
+import React from 'react';
+import '../main.scss';
+import './ChatNavigation.scss';
+const firebase = require('firebase');
 
 class ChatNavigation extends React.Component {
   constructor(props) {
@@ -10,33 +10,32 @@ class ChatNavigation extends React.Component {
       orderedChats: [],
       friendNames: [],
       friendProfilePictures: [],
-      friendOnlineStatuses: [],
     };
   }
   render() {
     if (this.state.orderedChats.length > 0) {
       return (
-        <div className="chat-navigation" style={{ left: this.props.leftValue }}>
+        <div className='chat-navigation' style={{ left: this.props.leftValue }}>
           <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
             onClick={this.props.logOut}
-            className="logout"
+            className='logout'
           >
             <path
-              d="M23.7017 12.574L21.1337 14.3844C20.6684 14.7123 20.0254 14.3784 20.0254 13.8097V12.7024L7.69536 12.7024C7.30705 12.7024 6.99219 12.3876 6.99219 11.9992C6.99219 11.6109 7.30705 11.2961 7.69536 11.2961L20.0253 11.2961V10.1889C20.0253 9.61643 20.6718 9.28868 21.1336 9.61418L23.7015 11.4246C24.0937 11.7009 24.1016 12.2914 23.7017 12.574Z"
-              fill="#4E575C"
+              d='M23.7017 12.574L21.1337 14.3844C20.6684 14.7123 20.0254 14.3784 20.0254 13.8097V12.7024L7.69536 12.7024C7.30705 12.7024 6.99219 12.3876 6.99219 11.9992C6.99219 11.6109 7.30705 11.2961 7.69536 11.2961L20.0253 11.2961V10.1889C20.0253 9.61643 20.6718 9.28868 21.1336 9.61418L23.7015 11.4246C24.0937 11.7009 24.1016 12.2914 23.7017 12.574Z'
+              fill='#4E575C'
             />
             <path
-              d="M20.1783 7.48422C19.8423 7.67857 19.4121 7.56382 19.2176 7.22763C17.5659 4.37219 14.4784 2.45524 10.9501 2.45524C5.68767 2.45524 1.4063 6.73661 1.4063 11.9991C1.4063 17.2615 5.68767 21.5429 10.9501 21.5429C14.4807 21.5429 17.5668 19.6242 19.2175 16.7706C19.412 16.4344 19.8423 16.3197 20.1783 16.514C20.5144 16.7085 20.6293 17.1386 20.4349 17.4748C18.5352 20.7588 14.9873 22.9492 10.9501 22.9492C4.89797 22.9492 0 18.0518 0 11.9991C0 5.94691 4.89745 1.04894 10.9501 1.04894C14.989 1.04894 18.5361 3.24096 20.4349 6.52347C20.6293 6.85961 20.5145 7.28974 20.1783 7.48422Z"
-              fill="#4E575C"
+              d='M20.1783 7.48422C19.8423 7.67857 19.4121 7.56382 19.2176 7.22763C17.5659 4.37219 14.4784 2.45524 10.9501 2.45524C5.68767 2.45524 1.4063 6.73661 1.4063 11.9991C1.4063 17.2615 5.68767 21.5429 10.9501 21.5429C14.4807 21.5429 17.5668 19.6242 19.2175 16.7706C19.412 16.4344 19.8423 16.3197 20.1783 16.514C20.5144 16.7085 20.6293 17.1386 20.4349 17.4748C18.5352 20.7588 14.9873 22.9492 10.9501 22.9492C4.89797 22.9492 0 18.0518 0 11.9991C0 5.94691 4.89745 1.04894 10.9501 1.04894C14.989 1.04894 18.5361 3.24096 20.4349 6.52347C20.6293 6.85961 20.5145 7.28974 20.1783 7.48422Z'
+              fill='#4E575C'
             />
           </svg>
-          <main className="chat-navigation__section">
-            <ul className="chat-navigation__section__chats">
+          <main className='chat-navigation__section'>
+            <ul className='chat-navigation__section__chats'>
               {this.state.orderedChats.map((chat, index) => {
                 return (
                   <li
@@ -46,8 +45,8 @@ class ChatNavigation extends React.Component {
                       this.props.chats.findIndex(
                         (element) => element === this.state.orderedChats[index]
                       )
-                        ? "chat-navigation__section__chats__chat selected"
-                        : "chat-navigation__section__chats__chat"
+                        ? 'chat-navigation__section__chats__chat selected'
+                        : 'chat-navigation__section__chats__chat'
                     }
                     onClick={() =>
                       this.selectChat(
@@ -58,42 +57,30 @@ class ChatNavigation extends React.Component {
                       )
                     }
                   >
-                    <div className="chat-navigation__section__chats__chat__profile-picture">
+                    <div className='chat-navigation__section__chats__chat__profile-picture'>
                       <img
                         src={this.state.friendProfilePictures[index]}
-                        alt=""
+                        alt=''
                       />
-                      <div class="chat-navigation__section__chats__chat__profile-picture__cutout">
-                        <div
-                          class="chat-navigation__section__chats__chat__profile-picture__cutout__symbol"
-                          style={{
-                            backgroundColor: this.props.friendOnlineStatuses[
-                              index
-                            ]
-                              ? "#6EFF7C"
-                              : "#838191",
-                          }}
-                        ></div>
-                      </div>
                     </div>
-                    <div className="chat-navigation__section__chats__chat__name">
+                    <div className='chat-navigation__section__chats__chat__name'>
                       {this.state.friendNames[index]}
                     </div>
-                    <div className="chat-navigation__section__chats__chat__message">
+                    <div className='chat-navigation__section__chats__chat__message'>
                       <>
                         {chat.messages[chat.messages.length - 1].message !==
                         null
                           ? chat.messages[chat.messages.length - 1].message
-                          : "GIF"}
+                          : 'GIF'}
                       </>
                     </div>
-                    <div className="chat-navigation__section__chats__chat__timestamp">
+                    <div className='chat-navigation__section__chats__chat__timestamp'>
                       {`${this.convertChatListTimestamp(
                         chat.messages[chat.messages.length - 1].timestamp
                       )}`}
                     </div>
                     <div
-                      className="chat-navigation__section__chats__chat__unread"
+                      className='chat-navigation__section__chats__chat__unread'
                       style={{
                         opacity:
                           !chat.receiverHasRead && !this.userSentMessage(chat)
@@ -106,65 +93,65 @@ class ChatNavigation extends React.Component {
               })}
             </ul>
           </main>
-          <div className="empty"></div>
+          <div className='empty'></div>
           <svg
-            width="36"
-            height="36"
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+            width='36'
+            height='36'
+            viewBox='0 0 48 48'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
             onClick={() => {
               this.newChat();
               this.props.toggleNav();
             }}
-            className="create-chat"
+            className='create-chat'
           >
             <path
-              d="M24.0008 2.26953C18.432 2.26953 12.8633 4.38799 8.62578 8.62549C0.150781 17.1005 0.150781 30.9005 8.62578 39.3755C12.8633 43.613 18.4508 45.7505 24.0008 45.7505C29.5508 45.7505 35.1383 43.613 39.3758 39.3755C47.8508 30.9005 47.8508 17.1005 39.3758 8.62549C35.1383 4.38799 29.5695 2.26953 24.0008 2.26953ZM24.0008 4.50049C28.9883 4.50049 33.9761 6.41269 37.8011 10.2002C45.3761 17.8127 45.3761 30.1883 37.8011 37.8008C30.1886 45.4133 17.8136 45.4133 10.2386 37.8008C2.62607 30.1883 2.62549 17.8127 10.2005 10.2002C14.0255 6.41269 19.0133 4.50049 24.0008 4.50049ZM24.0008 15.7505C23.3633 15.7505 22.8758 16.238 22.8758 16.8755V22.8755H16.8758C16.2383 22.8755 15.7508 23.363 15.7508 24.0005C15.7508 24.638 16.2383 25.1255 16.8758 25.1255H22.8758V31.1255C22.8758 31.763 23.3633 32.2505 24.0008 32.2505C24.6383 32.2505 25.1258 31.763 25.1258 31.1255V25.1255H31.1258C31.7633 25.1255 32.2508 24.638 32.2508 24.0005C32.2508 23.363 31.7633 22.8755 31.1258 22.8755H25.1258V16.8755C25.1258 16.238 24.6383 15.7505 24.0008 15.7505Z"
-              fill="#221E41"
+              d='M24.0008 2.26953C18.432 2.26953 12.8633 4.38799 8.62578 8.62549C0.150781 17.1005 0.150781 30.9005 8.62578 39.3755C12.8633 43.613 18.4508 45.7505 24.0008 45.7505C29.5508 45.7505 35.1383 43.613 39.3758 39.3755C47.8508 30.9005 47.8508 17.1005 39.3758 8.62549C35.1383 4.38799 29.5695 2.26953 24.0008 2.26953ZM24.0008 4.50049C28.9883 4.50049 33.9761 6.41269 37.8011 10.2002C45.3761 17.8127 45.3761 30.1883 37.8011 37.8008C30.1886 45.4133 17.8136 45.4133 10.2386 37.8008C2.62607 30.1883 2.62549 17.8127 10.2005 10.2002C14.0255 6.41269 19.0133 4.50049 24.0008 4.50049ZM24.0008 15.7505C23.3633 15.7505 22.8758 16.238 22.8758 16.8755V22.8755H16.8758C16.2383 22.8755 15.7508 23.363 15.7508 24.0005C15.7508 24.638 16.2383 25.1255 16.8758 25.1255H22.8758V31.1255C22.8758 31.763 23.3633 32.2505 24.0008 32.2505C24.6383 32.2505 25.1258 31.763 25.1258 31.1255V25.1255H31.1258C31.7633 25.1255 32.2508 24.638 32.2508 24.0005C32.2508 23.363 31.7633 22.8755 31.1258 22.8755H25.1258V16.8755C25.1258 16.238 24.6383 15.7505 24.0008 15.7505Z'
+              fill='#221E41'
             />
           </svg>
         </div>
       );
     } else {
       return (
-        <div className="chat-navigation">
+        <div className='chat-navigation'>
           <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
             onClick={this.props.logOut}
-            className="logout"
+            className='logout'
           >
             <path
-              d="M23.7017 12.574L21.1337 14.3844C20.6684 14.7123 20.0254 14.3784 20.0254 13.8097V12.7024L7.69536 12.7024C7.30705 12.7024 6.99219 12.3876 6.99219 11.9992C6.99219 11.6109 7.30705 11.2961 7.69536 11.2961L20.0253 11.2961V10.1889C20.0253 9.61643 20.6718 9.28868 21.1336 9.61418L23.7015 11.4246C24.0937 11.7009 24.1016 12.2914 23.7017 12.574Z"
-              fill="#4E575C"
+              d='M23.7017 12.574L21.1337 14.3844C20.6684 14.7123 20.0254 14.3784 20.0254 13.8097V12.7024L7.69536 12.7024C7.30705 12.7024 6.99219 12.3876 6.99219 11.9992C6.99219 11.6109 7.30705 11.2961 7.69536 11.2961L20.0253 11.2961V10.1889C20.0253 9.61643 20.6718 9.28868 21.1336 9.61418L23.7015 11.4246C24.0937 11.7009 24.1016 12.2914 23.7017 12.574Z'
+              fill='#4E575C'
             />
             <path
-              d="M20.1783 7.48422C19.8423 7.67857 19.4121 7.56382 19.2176 7.22763C17.5659 4.37219 14.4784 2.45524 10.9501 2.45524C5.68767 2.45524 1.4063 6.73661 1.4063 11.9991C1.4063 17.2615 5.68767 21.5429 10.9501 21.5429C14.4807 21.5429 17.5668 19.6242 19.2175 16.7706C19.412 16.4344 19.8423 16.3197 20.1783 16.514C20.5144 16.7085 20.6293 17.1386 20.4349 17.4748C18.5352 20.7588 14.9873 22.9492 10.9501 22.9492C4.89797 22.9492 0 18.0518 0 11.9991C0 5.94691 4.89745 1.04894 10.9501 1.04894C14.989 1.04894 18.5361 3.24096 20.4349 6.52347C20.6293 6.85961 20.5145 7.28974 20.1783 7.48422Z"
-              fill="#4E575C"
+              d='M20.1783 7.48422C19.8423 7.67857 19.4121 7.56382 19.2176 7.22763C17.5659 4.37219 14.4784 2.45524 10.9501 2.45524C5.68767 2.45524 1.4063 6.73661 1.4063 11.9991C1.4063 17.2615 5.68767 21.5429 10.9501 21.5429C14.4807 21.5429 17.5668 19.6242 19.2175 16.7706C19.412 16.4344 19.8423 16.3197 20.1783 16.514C20.5144 16.7085 20.6293 17.1386 20.4349 17.4748C18.5352 20.7588 14.9873 22.9492 10.9501 22.9492C4.89797 22.9492 0 18.0518 0 11.9991C0 5.94691 4.89745 1.04894 10.9501 1.04894C14.989 1.04894 18.5361 3.24096 20.4349 6.52347C20.6293 6.85961 20.5145 7.28974 20.1783 7.48422Z'
+              fill='#4E575C'
             />
           </svg>
-          <main className="chat-navigation__section">
+          <main className='chat-navigation__section'>
             <svg
-              width="36"
-              height="36"
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              width='36'
+              height='36'
+              viewBox='0 0 48 48'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
               onClick={() => {
                 this.newChat();
                 setTimeout(() => {
                   this.props.toggleNav();
                 }, 1000);
               }}
-              className="create-chat"
+              className='create-chat'
             >
               <path
-                d="M24.0008 2.26953C18.432 2.26953 12.8633 4.38799 8.62578 8.62549C0.150781 17.1005 0.150781 30.9005 8.62578 39.3755C12.8633 43.613 18.4508 45.7505 24.0008 45.7505C29.5508 45.7505 35.1383 43.613 39.3758 39.3755C47.8508 30.9005 47.8508 17.1005 39.3758 8.62549C35.1383 4.38799 29.5695 2.26953 24.0008 2.26953ZM24.0008 4.50049C28.9883 4.50049 33.9761 6.41269 37.8011 10.2002C45.3761 17.8127 45.3761 30.1883 37.8011 37.8008C30.1886 45.4133 17.8136 45.4133 10.2386 37.8008C2.62607 30.1883 2.62549 17.8127 10.2005 10.2002C14.0255 6.41269 19.0133 4.50049 24.0008 4.50049ZM24.0008 15.7505C23.3633 15.7505 22.8758 16.238 22.8758 16.8755V22.8755H16.8758C16.2383 22.8755 15.7508 23.363 15.7508 24.0005C15.7508 24.638 16.2383 25.1255 16.8758 25.1255H22.8758V31.1255C22.8758 31.763 23.3633 32.2505 24.0008 32.2505C24.6383 32.2505 25.1258 31.763 25.1258 31.1255V25.1255H31.1258C31.7633 25.1255 32.2508 24.638 32.2508 24.0005C32.2508 23.363 31.7633 22.8755 31.1258 22.8755H25.1258V16.8755C25.1258 16.238 24.6383 15.7505 24.0008 15.7505Z"
-                fill="#221E41"
+                d='M24.0008 2.26953C18.432 2.26953 12.8633 4.38799 8.62578 8.62549C0.150781 17.1005 0.150781 30.9005 8.62578 39.3755C12.8633 43.613 18.4508 45.7505 24.0008 45.7505C29.5508 45.7505 35.1383 43.613 39.3758 39.3755C47.8508 30.9005 47.8508 17.1005 39.3758 8.62549C35.1383 4.38799 29.5695 2.26953 24.0008 2.26953ZM24.0008 4.50049C28.9883 4.50049 33.9761 6.41269 37.8011 10.2002C45.3761 17.8127 45.3761 30.1883 37.8011 37.8008C30.1886 45.4133 17.8136 45.4133 10.2386 37.8008C2.62607 30.1883 2.62549 17.8127 10.2005 10.2002C14.0255 6.41269 19.0133 4.50049 24.0008 4.50049ZM24.0008 15.7505C23.3633 15.7505 22.8758 16.238 22.8758 16.8755V22.8755H16.8758C16.2383 22.8755 15.7508 23.363 15.7508 24.0005C15.7508 24.638 16.2383 25.1255 16.8758 25.1255H22.8758V31.1255C22.8758 31.763 23.3633 32.2505 24.0008 32.2505C24.6383 32.2505 25.1258 31.763 25.1258 31.1255V25.1255H31.1258C31.7633 25.1255 32.2508 24.638 32.2508 24.0005C32.2508 23.363 31.7633 22.8755 31.1258 22.8755H25.1258V16.8755C25.1258 16.238 24.6383 15.7505 24.0008 15.7505Z'
+                fill='#221E41'
               />
             </svg>
           </main>
@@ -193,26 +180,14 @@ class ChatNavigation extends React.Component {
         return friendProfilePicture;
       }
     );
-    const friendOnlineStatusesPromises = orderedChats.map(
-      async (chat, index) => {
-        const friendOnlineStatus = await this.findFriendOnlineStatus(
-          chat.users.filter((user) => user !== this.props.email)[0]
-        );
-        return friendOnlineStatus;
-      }
-    );
     const friendNames = await Promise.all(friendNamesPromises);
     const friendProfilePictures = await Promise.all(
       friendProfilePicturesPromises
-    );
-    const friendOnlineStatuses = await Promise.all(
-      friendOnlineStatusesPromises
     );
     await this.setState({
       orderedChats,
       friendNames,
       friendProfilePictures,
-      friendOnlineStatuses,
     });
   };
   componentDidUpdate = async (prevProps, prevState) => {
@@ -237,33 +212,21 @@ class ChatNavigation extends React.Component {
           return friendProfilePicture;
         }
       );
-      const friendOnlineStatusesPromises = orderedChats.map(
-        async (chat, index) => {
-          const friendOnlineStatus = await this.findFriendOnlineStatus(
-            chat.users.filter((user) => user !== this.props.email)[0]
-          );
-          return friendOnlineStatus;
-        }
-      );
       const friendNames = await Promise.all(friendNamesPromises);
       const friendProfilePictures = await Promise.all(
         friendProfilePicturesPromises
-      );
-      const friendOnlineStatuses = await Promise.all(
-        friendOnlineStatusesPromises
       );
       await this.setState({
         orderedChats,
         friendNames,
         friendProfilePictures,
-        friendOnlineStatuses,
       });
     }
   };
   findFriendName = async (friendEmail) => {
     const doc = await firebase
       .firestore()
-      .collection("users")
+      .collection('users')
       .doc(friendEmail)
       .get();
     const nameFirst = doc.data().nameFirst;
@@ -273,20 +236,11 @@ class ChatNavigation extends React.Component {
   findFriendProfilePicture = async (friendEmail) => {
     const doc = await firebase
       .firestore()
-      .collection("users")
+      .collection('users')
       .doc(friendEmail)
       .get();
     const profilePictureUrl = doc.data().profilePictureUrl;
     return profilePictureUrl;
-  };
-  findFriendOnlineStatus = async (friendEmail) => {
-    const doc = await firebase
-      .firestore()
-      .collection("users")
-      .doc(friendEmail)
-      .get();
-    const onlineStatus = doc.data().online;
-    return onlineStatus;
   };
   newChat = () => {
     this.props.newChat();
@@ -306,22 +260,22 @@ class ChatNavigation extends React.Component {
       const difference = Date.now() - timestamp;
 
       const dateString = new Date(timestamp).toString();
-      const dateArr = dateString.split(" ");
+      const dateArr = dateString.split(' ');
 
       switch (true) {
         case difference < dayMs:
-          const hourMinSeconds = dateString.split(" ")[4];
-          const hourMinArr = hourMinSeconds.split(":");
-          const hourMin = [hourMinArr[0], hourMinArr[1]].join(":");
+          const hourMinSeconds = dateString.split(' ')[4];
+          const hourMinArr = hourMinSeconds.split(':');
+          const hourMin = [hourMinArr[0], hourMinArr[1]].join(':');
           return hourMin;
         case difference < weekMs:
-          return dateString.split(" ")[0];
+          return dateString.split(' ')[0];
         case difference < yearMs:
-          return [dateArr[2], dateArr[1]].join(" ");
+          return [dateArr[2], dateArr[1]].join(' ');
         case difference >= yearMs:
-          return [dateArr[1], dateArr[2], dateArr[3]].join(" ");
+          return [dateArr[1], dateArr[2], dateArr[3]].join(' ');
         default:
-          return "";
+          return '';
       }
     }
   };
