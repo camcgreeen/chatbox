@@ -26,18 +26,8 @@
 }
 
 .user-authentication-container {
-  // width: 1170px;
-  // margin: 0 auto;
-  // background-color: grey;
-  // width: 80vw;
-  // margin: 0 auto;
-  // padding: 0 350px;
-  // width: 1220px;
-  // width: 60vw;
   width: 1170px;
   margin: 0 auto;
-  // position: relative;
-  // overflow: hidden;
 }
 
 .dashboard-container {
@@ -59,34 +49,12 @@ body {
   -ms-animation: fadeIn ease-in-out $fade-duration;
 }
 
-html {
-  // scroll-behavior: smooth !important;
-}
-
 body {
   color: $color-primary;
   background-color: $color-bg;
   position: relative;
   overscroll-behavior-y: none;
-  // overflow: hidden;
 }
-
-// ::-webkit-scrollbar {
-//   // width: 0px;
-//   // background: transparent;
-//   // background: white;
-//   // color: pink;
-//   &-track {
-//     color: pink;
-//   }
-// }
-
-// ::-webkit-scrollbar-thumb {
-//   // width: 0;
-//   color: blue !important;
-// }
-
-//GLOBAL INPUT STYLE, LIKE BTN
 
 .btn {
   cursor: pointer;
@@ -116,9 +84,7 @@ body {
   &--hero {
     position: relative;
     padding: 12px 24px;
-    // z-index: 4;
     &::before {
-      // z-index: 2;
       content: '';
       border: solid $color-action-1 1px;
       border-radius: $border-radius;
@@ -130,7 +96,6 @@ body {
       left: 10px;
       opacity: 1;
     }
-    // transition: background-color 0.2s ease-in-out;
     &:hover {
       background-color: $color-action-2;
       &::before {
@@ -155,7 +120,7 @@ body {
 
 @media only screen and (max-width: 1024px) {
   .user-authentication-container {
-    width: 90%;
+    width: 70%;
   }
 }
 

@@ -6,7 +6,6 @@ import {
 } from '../utilities/helpers';
 import '../main.scss';
 import './Home.scss';
-import LandingImage from '../images/chatbox-mock.png';
 
 const firebase = require('firebase');
 
@@ -30,11 +29,10 @@ class Home extends React.Component {
             <img className='bg' src='https://svgshare.com/i/TcG.svg' alt='' />
             <div className='home'>
               <div className='home__left'>
-                <h1 className='home__left__h1'>
-                  Chat with friends, whenever and wherever.
-                </h1>
+                <h1 className='home__left__h1'>Chat with friends, anywhere.</h1>
                 <h2 className='home__left__h2'>
-                  Chatbox makes it easy to stay connected to people you love.
+                  Chatbox makes it easy to stay connected to people you love,
+                  wherever they are in the world.
                 </h2>
                 <button
                   className='home__left__demo btn btn--hero'
@@ -56,9 +54,7 @@ class Home extends React.Component {
                 </button>
               </div>
               <div className='home__right'>
-                <div className='home__right__preview'>
-                  {/* <img src={LandingImage} alt='' /> */}
-                </div>
+                <div className='home__right__preview'></div>
               </div>
             </div>
           </>
